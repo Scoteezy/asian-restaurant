@@ -1,7 +1,18 @@
-import type { NextConfig } from "next";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { env } from "@/env";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import("next").NextConfig} */
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "**.googleusercontent.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
