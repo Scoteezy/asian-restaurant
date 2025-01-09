@@ -105,7 +105,7 @@ const UserInfo = ({prefetchedUser}: {prefetchedUser: User}) => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="example@example.com" {...field} />
+                  <Input placeholder="example@example.com" {...field} readOnly/>
                 </FormControl>
                 <FormMessage />
               </FormItem>

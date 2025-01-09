@@ -32,6 +32,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <HeaderServer />
+
           <UserDataModal />
           {children}
           <Toaster />
