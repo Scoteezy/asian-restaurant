@@ -87,7 +87,7 @@ function UserDataModal() {
           email: user.email ?? "",
         })
       }
-      if (!user?.name || !user?.phone || !user?.email && params.get('afterAuth') === 'true') {
+      if (user && (!user?.name || !user?.phone || !user?.email && params.get('afterAuth') === 'true')) {
         setOpen(true)
       }
     })

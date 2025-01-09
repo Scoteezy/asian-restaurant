@@ -6,6 +6,7 @@ import { type User } from "next-auth";
 import Link from "next/link";
 
 import { AuthModal } from "@/components/features/auth";
+import { LocationModal } from "@/components/features/location";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,7 +15,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-
 const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
   return (
     <div className="w-full bg-background h-[70px]">
@@ -26,25 +26,7 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
             <span className="text-primary">A-Food</span>
             <span className="text-muted-foreground text-xs">Азия здесь</span>
           </Link>
-          <button className="flex gap-1 items-center">
-            <MapPin className="w-6 h-6"
-              color="#fff"
-              height={30}
-              width={30}
-            />
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-1">
-                <p className="text-sm">Адрес доставки или самовывоз</p>
-                <ChevronDown
-                  className="w-4 h-4" 
-                  color="#fff" 
-                  height={20}
-                  width={20}
-                />
-              </div>
-              <p className="text-xs self-start text-muted-foreground">Выберите где получить заказ</p>
-            </div>
-          </button>
+          {prefetchedUser ? <LocationModal /> : <></>}
         </div>
         <div className="flex items-center gap-4">
           <a className="text-md text-primary font-medium"
