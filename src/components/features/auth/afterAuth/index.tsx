@@ -33,9 +33,9 @@ const formSchema = z.object({
     message: "Имя должно содержать минимум 2 символа.",
   }),
   phone: z.string()
-  .startsWith("+7", { message: "Номер телефона должен начинаться с +7" })
-  .min(12, { message: "Введите корректный номер телефона." })
-  .max(12, { message: "Введите корректный номер телефона." }),
+    .startsWith("+7", { message: "Номер телефона должен начинаться с +7" })
+    .min(12, { message: "Введите корректный номер телефона." })
+    .max(12, { message: "Введите корректный номер телефона." }),
   email: z.string().email({
     message: "Пожалуйста, введите корректный email.",
   }),
@@ -59,8 +59,8 @@ function UserDataModal() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if(!user?.id){
-return
-}
+      return
+    }
     void updateUserAction(user.id, {
       ...values,
       id: user.id,
@@ -78,22 +78,24 @@ return
   
   useEffect(() => {
     void getUserAction().then((user) => {
-        setUser(user)
-        if (user) {
-            // Update form values when user data is loaded
-            form.reset({
-              name: user.name ?? "",
-              phone: user.phone ?? "",
-              email: user.email ?? "",
-            })
-          }
+      setUser(user)
+      if (user) {
+        // Update form values when user data is loaded
+        form.reset({
+          name: user.name ?? "",
+          phone: user.phone ?? "",
+          email: user.email ?? "",
+        })
+      }
       if (!user?.name || !user?.phone || !user?.email && params.get('afterAuth') === 'true') {
         setOpen(true)
       }
     })
   }, [params])
   return (
-    <Dialog onOpenChange={setOpen} open={open}>
+    <Dialog onOpenChange={setOpen}
+      open={open}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Заполните личные данные</DialogTitle>
@@ -102,7 +104,9 @@ return
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="space-y-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FormField
               control={form.control}
               name="name"
@@ -110,7 +114,9 @@ return
                 <FormItem>
                   <FormLabel>Имя</FormLabel>
                   <FormControl>
-                    <Input placeholder="Иван" {...field} />
+                    <Input placeholder="Иван"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -123,7 +129,9 @@ return
                 <FormItem>
                   <FormLabel>Телефон</FormLabel>
                   <FormControl>
-                    <Input placeholder="+7 (999) 999-99-99" {...field} />
+                    <Input placeholder="+7 (999) 999-99-99"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,13 +144,18 @@ return
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="example@example.com" {...field} />
+                    <Input placeholder="example@example.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit" variant="secondary">
+            <Button className="w-full"
+              type="submit"
+              variant="secondary"
+            >
               Сохранить
             </Button>
           </form>

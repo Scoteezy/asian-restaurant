@@ -41,7 +41,6 @@ function LoginForm() {
     console.log(values)
   }
   const handleGoogleSignIn = async () => {
-    const unusedVar = '';
     const result = await signIn('google', { 
       redirect: false,
       callbackUrl: `${window.location.origin}?afterAuth=true`
@@ -58,7 +57,9 @@ function LoginForm() {
 
   return (
     <Form {...form}>
-      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control} 
           name="email"
@@ -66,7 +67,9 @@ function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="example@example.com" {...field} />
+                <Input placeholder="example@example.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,19 +82,30 @@ function LoginForm() {
             <FormItem>
               <FormLabel>Пароль</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <Input type="password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit" variant="secondary">Войти</Button>
+        <Button className="w-full"
+          type="submit"
+          variant="secondary"
+        >Войти
+        </Button>
       </form>
       <div className="mt-4">
-        <Button className="w-full mb-2" onClick={handleGoogleSignIn} variant="outline">
+        <Button className="w-full mb-2"
+          onClick={handleGoogleSignIn}
+          variant="outline"
+        >
           Войти через Google
         </Button>
-        <Button className="w-full" variant="outline">
+        <Button className="w-full"
+          variant="outline"
+        >
           Войти через VK
         </Button>
       </div>

@@ -26,10 +26,50 @@ const compat = new FlatCompat({
 });
 
 export default [
-  // 0) Явно игнорируем сам файл конфигурации,
-  //    чтобы правила @typescript-eslint не пытались его анализировать:
+
   {
-    ignores: ["**/eslint.config.mjs"],
+    ignores: [
+      // Build outputs
+      "**/.next/**",
+      "**/dist/**",
+      "**/build/**",
+      
+      // Dependencies
+      "**/node_modules/**",
+      
+      // Static files
+      "**/public/**",
+      "**/*.ico",
+      "**/*.css",
+      "**/*.svg",
+      "**/*.woff2",
+      "**/*.ttf",
+      "**/*.eot",
+      "**/*.woff",
+      
+      // Config files
+      "**/*.config.js",
+      "**/*.config.mjs",
+      "**/*.config.ts",
+      
+      // Documentation
+      "**/*.md",
+
+       // Dot files
+      "**/.env*",
+      "**/.git*",
+      "**/.prettier*",
+      "**/.eslint*",
+      "**/.vscode/**",
+      
+      // Other
+      "**/*.json",
+      "**/*.prisma",
+      "**/*.map",
+      "**/src/components/ui/**",
+      "**/trace",
+      "**/transform.js"
+    ]
   },
 
   // 1) Подтягиваем конфиги (если какие-то конфликтуют — уберите их)
@@ -39,8 +79,8 @@ export default [
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
-    "plugin:prettier/recommended",
-    "eslint-config-prettier",
+    // "plugin:prettier/recommended",
+    // "eslint-config-prettier",
   ),
 
   // 2) Наш основной блок настроек
@@ -65,7 +105,7 @@ export default [
     plugins: {
       "@typescript-eslint": typeScriptEslint,
       "unused-imports": unusedImports,
-      "prettier": prettierPlugin,
+      // "prettier": prettierPlugin,
       "sonarjs": sonarjsPlugin,
       "react": reactPlugin,
       "comment-length": commentLengthPlugin,
@@ -162,7 +202,35 @@ export default [
           onlyDeclarations: true,
         },
       ],
-
+      // Правило для переноса props на новые строки
+      "react/jsx-max-props-per-line": ["warn", { 
+        "maximum": 1,
+        "when": "always"
+      }],
+      "indent": ["warn", 2, {
+    "SwitchCase": 1,
+    "VariableDeclarator": 1,
+    "outerIIFEBody": 1,
+    "MemberExpression": 1,
+    "FunctionDeclaration": { "parameters": 1, "body": 1 },
+    "FunctionExpression": { "parameters": 1, "body": 1 },
+    "CallExpression": { "arguments": 1 },
+    "ArrayExpression": 1,
+    "ObjectExpression": 1,
+    "ImportDeclaration": 1,
+    "flatTernaryExpressions": false,
+    "ignoreComments": false
+  }],
+  
+  // Отступы для JSX
+  "react/jsx-indent": ["warn", 2],
+  "react/jsx-indent-props": ["warn", 2],
+  
+  // Правило для переноса закрывающих скобок
+  "react/jsx-closing-bracket-location": ["warn", "line-aligned"],
+  
+  // Правило для переноса закрывающего тега
+  "react/jsx-closing-tag-location": "warn",
       // --- Perfectionist (sorting) rules
       "perfectionist/sort-classes": "off",
       "perfectionist/sort-enums": "off",

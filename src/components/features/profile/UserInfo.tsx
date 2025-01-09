@@ -57,8 +57,8 @@ const UserInfo = ({prefetchedUser}: {prefetchedUser: User}) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if(!prefetchedUser?.id) {
-return
-}
+      return
+    }
     
     await updateUserAction(prefetchedUser.id, {
       ...values,
@@ -75,7 +75,9 @@ return
     <div className="flex flex-col gap-2 p-3 border-2 border-secondary rounded-lg min-w-[300px]">
       <h1 className="text-2xl font-bold text-primary">Ваш профиль</h1>
       <Form {...form}>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-4"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FormField
             control={form.control}
             name="name"
@@ -83,7 +85,9 @@ return
               <FormItem>
                 <FormLabel>Имя</FormLabel>
                 <FormControl>
-                  <Input placeholder="Иван" {...field} />
+                  <Input placeholder="Иван"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,7 +100,9 @@ return
               <FormItem>
                 <FormLabel>Телефон</FormLabel>
                 <FormControl>
-                  <Input placeholder="+7 (999) 999-99-99" {...field} />
+                  <Input placeholder="+7 (999) 999-99-99"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,14 +115,20 @@ return
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="example@example.com" {...field} readOnly/>
+                  <Input placeholder="example@example.com"
+                    {...field}
+                    readOnly
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className="flex flex-col gap-2">
-            <Button className="w-full rounded-full" type="submit" variant="secondary">
+            <Button className="w-full rounded-full"
+              type="submit"
+              variant="secondary"
+            >
               Сохранить
             </Button>
             <Button 
@@ -125,7 +137,10 @@ return
               type="button"
               variant="default"
             >
-              <LogOutIcon height={18} size={18} width={18}/> Выйти
+              <LogOutIcon height={18}
+                size={18}
+                width={18}
+              /> Выйти
             </Button>
           </div>
         </form>
