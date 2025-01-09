@@ -1,8 +1,10 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+
+import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -45,7 +47,7 @@ function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
@@ -85,7 +87,7 @@ function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" variant="secondary">Зарегистрироваться</Button>
+        <Button className="w-full" type="submit" variant="secondary">Зарегистрироваться</Button>
       </form>
     </Form>
   )

@@ -1,8 +1,12 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
+import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import * as z from "zod"
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -13,8 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
+
 const formSchema = z.object({
   email: z.string().email({
     message: "Пожалуйста, введите корректный email.",
@@ -38,6 +41,7 @@ function LoginForm() {
     console.log(values)
   }
   const handleGoogleSignIn = async () => {
+    const unusedVar = '';
     const result = await signIn('google', { 
       redirect: false,
       callbackUrl: `${window.location.origin}?afterAuth=true`
@@ -54,9 +58,9 @@ function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
-          control={form.control}
+          control={form.control} 
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -81,13 +85,13 @@ function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" variant="secondary" className="w-full">Войти</Button>
+        <Button className="w-full" type="submit" variant="secondary">Войти</Button>
       </form>
       <div className="mt-4">
-        <Button variant="outline" className="w-full mb-2" onClick={handleGoogleSignIn}>
+        <Button className="w-full mb-2" onClick={handleGoogleSignIn} variant="outline">
           Войти через Google
         </Button>
-        <Button variant="outline" className="w-full">
+        <Button className="w-full" variant="outline">
           Войти через VK
         </Button>
       </div>
