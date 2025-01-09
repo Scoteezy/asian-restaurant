@@ -1,6 +1,7 @@
 "use server";
 
-import { User } from "@prisma/client";
+import { type User } from "@prisma/client";
+
 import { auth } from "../auth";
 import { db } from "../db";
 

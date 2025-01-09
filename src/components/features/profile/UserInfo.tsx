@@ -1,7 +1,15 @@
 'use client'
-import { zodResolver } from "@hookform/resolvers/zod"
+import { LogOutIcon } from "lucide-react"
+import { signOut } from "next-auth/react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+
+import { useToast } from "@/hooks/use-toast"
+import { updateUserAction } from "@/server/actions/user.actions"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { type User } from "@prisma/client"
 import * as z from "zod"
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -12,12 +20,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { LogOutIcon } from "lucide-react"
-import { User } from "@prisma/client"
-import { signOut } from "next-auth/react"
-import { useEffect } from "react"
-import { updateUserAction } from "@/server/actions/user.actions"
-import { useToast } from "@/hooks/use-toast"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -54,7 +56,9 @@ const UserInfo = ({prefetchedUser}: {prefetchedUser: User}) => {
   }, [prefetchedUser, form])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if(!prefetchedUser?.id) return
+    if(!prefetchedUser?.id) {
+return
+}
     
     await updateUserAction(prefetchedUser.id, {
       ...values,
@@ -71,7 +75,7 @@ const UserInfo = ({prefetchedUser}: {prefetchedUser: User}) => {
     <div className="flex flex-col gap-2 p-3 border-2 border-secondary rounded-lg min-w-[300px]">
       <h1 className="text-2xl font-bold text-primary">Ваш профиль</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="name"
@@ -112,16 +116,16 @@ const UserInfo = ({prefetchedUser}: {prefetchedUser: User}) => {
             )}
           />
           <div className="flex flex-col gap-2">
-            <Button type="submit" variant="secondary" className="w-full rounded-full">
+            <Button className="w-full rounded-full" type="submit" variant="secondary">
               Сохранить
             </Button>
             <Button 
-              type="button" 
-              variant="default" 
-              className="rounded-full w-full h-10 text-white bg-secondary hover:bg-secondary/80"
-              onClick={() => signOut()}
+              className="rounded-full w-full h-10 text-white bg-secondary hover:bg-secondary/80" 
+              onClick={() => signOut()} 
+              type="button"
+              variant="default"
             >
-              <LogOutIcon size={18} height={18} width={18}/> Выйти
+              <LogOutIcon height={18} size={18} width={18}/> Выйти
             </Button>
           </div>
         </form>

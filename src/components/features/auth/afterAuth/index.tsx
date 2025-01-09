@@ -1,8 +1,15 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+
+import { useToast } from "@/hooks/use-toast"
+import { getUserAction, updateUserAction } from "@/server/actions/user.actions"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { type User } from "@prisma/client"
+import { useSearchParams } from "next/navigation"
 import * as z from "zod"
+
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -20,11 +27,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
-import { getUserAction, updateUserAction } from "@/server/actions/user.actions"
-import { User } from "@prisma/client"
-import { useToast } from "@/hooks/use-toast"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -45,7 +47,7 @@ function UserDataModal() {
   const params = useSearchParams()
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<null | User>(null)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,7 +58,9 @@ function UserDataModal() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if(!user?.id){return}
+    if(!user?.id){
+return
+}
     void updateUserAction(user.id, {
       ...values,
       id: user.id,
@@ -73,7 +77,7 @@ function UserDataModal() {
   }
   
   useEffect(() => {
-    getUserAction().then((user) => {
+    void getUserAction().then((user) => {
         setUser(user)
         if (user) {
             // Update form values when user data is loaded
@@ -89,7 +93,7 @@ function UserDataModal() {
     })
   }, [params])
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog onOpenChange={setOpen} open={open}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Заполните личные данные</DialogTitle>
@@ -98,7 +102,7 @@ function UserDataModal() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="name"
@@ -138,7 +142,7 @@ function UserDataModal() {
                 </FormItem>
               )}
             />
-            <Button type="submit" variant="secondary" className="w-full">
+            <Button className="w-full" type="submit" variant="secondary">
               Сохранить
             </Button>
           </form>

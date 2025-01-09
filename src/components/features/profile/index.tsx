@@ -1,3 +1,3 @@
-import { UserInfo } from "./UserInfo";
 import { UserAdditional } from "./UserAdditional";
-export {UserInfo, UserAdditional};
+import { UserInfo } from "./UserInfo";
+export {UserAdditional, UserInfo};

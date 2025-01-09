@@ -14,7 +14,7 @@
     "build": "npm run db:dev && next build",
     "start": "next start",
     "-------- Other --------": "",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint ."
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

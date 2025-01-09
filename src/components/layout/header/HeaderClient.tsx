@@ -1,6 +1,8 @@
 'use client'
 import { ChevronDown, LogOutIcon, MapPin, Menu} from "lucide-react";
 import Link from "next/link";
+
+import { AuthModal } from "@/components/features/auth";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,16 +11,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { User } from "next-auth";
-import { AuthModal } from "@/components/features/auth";
-import { signOut } from "next-auth/react";
 
 const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
   return (
     <div className="w-full bg-background h-[70px]">
       <div className="wrapper flex-between">
         <div className="flex-center text-2xl font-bold text-primary gap-5">
-          <Link href="/" className="flex flex-col ">
+          <Link className="flex flex-col " href="/">
           <span className="text-primary">A-Food</span>
           <span className="text-muted-foreground text-xs">Азия здесь</span>
           </Link>
@@ -39,24 +38,26 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
           </button>
         </div>
         <div className="flex items-center gap-4">
-          <a href="tel:+79198768851" className="text-md text-primary font-medium">+7 (919) 876-88-51</a>
+          <a className="text-md text-primary font-medium" href="tel:+79198768851">+7 (919) 876-88-51</a>
             <Sheet>
-            <SheetTrigger><Menu size={18} height={18} width={18}/></SheetTrigger>
+            <SheetTrigger><Menu height={18} size={18} width={18}/></SheetTrigger>
             <SheetContent>
               <SheetHeader>
                 <SheetTitle>Меню</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-2 mt-2">
-                {prefetchedUser ? <Link href="/profile" className="text-md text-primary hover:text-primary/80 transition-all duration-300">Профиль</Link> : <></>}
+                {prefetchedUser ? <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300" href="/profile">Профиль</Link> : <></>}
               
-                <Link href="/" className="text-md text-primary hover:text-primary/80 transition-all duration-300">Главная</Link>
-                <Link href="/" className="text-md text-primary hover:text-primary/80 transition-all duration-300">Бонусная программа</Link>
-                <Link href="/" className="text-md text-primary hover:text-primary/80 transition-all duration-300">Вакансии</Link>
-                <Link href="/" className="text-md text-primary hover:text-primary/80 transition-all duration-300">Контакты</Link>  
-                <Link href="/" className="text-md text-primary hover:text-primary/80 transition-all duration-300">Акции и мероприятия</Link>
-                <Link href="/" className="text-md text-primary hover:text-primary/80 transition-all duration-300">Правовая информация</Link>
+                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300" href="/">Главная</Link>
+                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300" href="/">Бонусная программа</Link>
+                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300" href="/">Вакансии</Link>
+                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300" href="/">Контакты</Link>  
+                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300" href="/">Акции и мероприятия</Link>
+                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300" href="/">Правовая информация</Link>
                 <div className="mt-4 w-full">
-                {prefetchedUser ? <Button variant='secondary' className="rounded-full w-full h-10" onClick={()=>{signOut()}}><LogOutIcon size={18} height={18} width={18}/> Выйти</Button> : <AuthModal />}
+                {prefetchedUser ? <Button className="rounded-full w-full h-10" onClick={()=>{
+                void signOut()
+                }} variant='secondary'><LogOutIcon height={18} size={18} width={18}/> Выйти</Button> : <AuthModal />}
                 </div>
 
               </div>
