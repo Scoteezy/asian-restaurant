@@ -9,7 +9,8 @@ import { HeaderServer } from "@/components/layout/header";
 import { SubHeader } from "@/components/layout/subheader";
 import { Toaster } from "@/components/ui/toaster"
 
-import "./globals.css";
+import "@/styles/globals.css";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,12 +33,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark font-sans`}>
         <SessionProvider>
-          <HeaderServer />
-          <SubHeader />
-          <UserDataModal />
           {children}
           <Toaster />
         </SessionProvider>

@@ -1,5 +1,6 @@
 "use client"
 
+import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -41,8 +42,17 @@ function RegisterForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if(values.password !== values.confirmPassword) {
+      form.setError('confirmPassword', {
+        message: 'Пароли не совпадают',
+      })
+      return
+    }
+    await signIn('credentials', {
+      email: values.email,
+      password: values.password,
+    })
   }
 
   return (

@@ -46,7 +46,9 @@ function AuthModal() {
             Войдите в свой аккаунт или зарегистрируйтесь
           </DialogDescription>
         </DialogHeader>
-        <Tabs className="w-full"
+        <LoginForm />
+
+        {/* <Tabs className="w-full"
           defaultValue="login"
         >
           <TabsList className="grid w-full grid-cols-2">
@@ -57,12 +59,11 @@ function AuthModal() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="login">
-            <LoginForm />
           </TabsContent>
           <TabsContent value="register">
             <RegisterForm />
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
       </DialogContent>
     </Dialog>
   )

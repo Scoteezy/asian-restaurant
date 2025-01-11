@@ -10,13 +10,9 @@ import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+
 
 const formSchema = z.object({
   email: z.string().email({
@@ -37,9 +33,6 @@ function LoginForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-  }
   const handleGoogleSignIn = async () => {
     const result = await signIn('google', { 
       redirect: false,
@@ -57,46 +50,8 @@ function LoginForm() {
 
   return (
     <Form {...form}>
-      <form className="space-y-4"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <FormField
-          control={form.control} 
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="example@example.com"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Пароль</FormLabel>
-              <FormControl>
-                <Input type="password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="w-full"
-          type="submit"
-          variant="secondary"
-        >Войти
-        </Button>
-      </form>
-      <div className="mt-4">
+    
+      <div >
         <Button className="w-full mb-2"
           onClick={handleGoogleSignIn}
           variant="outline"
