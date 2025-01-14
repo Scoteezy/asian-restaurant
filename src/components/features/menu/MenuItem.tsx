@@ -1,3 +1,5 @@
+'use client'
+
 import { PlusIcon, SoupIcon } from "lucide-react"
 
 import Image from "next/image"

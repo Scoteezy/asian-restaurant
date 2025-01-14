@@ -11,6 +11,9 @@ const nextConfig = {
       {
         hostname: "**.googleusercontent.com",
       },
+      {
+        hostname: '**.vercel-storage.com',
+      },
     ],
   },
 };

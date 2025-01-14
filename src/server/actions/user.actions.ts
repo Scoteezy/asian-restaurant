@@ -1,6 +1,6 @@
 "use server";
 
-import { type User } from "@prisma/client";
+import { type Role, type User } from "@prisma/client";
 
 import { auth } from "../auth";
 import { db } from "../db";
@@ -29,6 +29,20 @@ export const getUserByIdAction = async (id: string) => {
   return await db.user.findUnique({
     where: {
       id,
+    },
+  });
+};
+export const getAllUsersAction = async () => {
+  return await db.user.findMany();
+};
+
+export const updateUserRoleAction = async (id: string, role: Role) => {
+  return await db.user.update({
+    where: {
+      id,
+    },
+    data: {
+      role,
     },
   });
 };

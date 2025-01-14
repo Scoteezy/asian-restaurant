@@ -1,4 +1,5 @@
 import { type Address } from "./Address"
 import { type Category } from "./Category"
-
-export type { Address, Category }
+import { type ProductWithCategory } from "./Products"
+    
+export type { Address, Category, ProductWithCategory }

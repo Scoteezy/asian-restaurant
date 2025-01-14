@@ -11,13 +11,12 @@ export default async function ProfilePage() {
   if(!user) {
     redirect('/')
   }
-  const prefetchedUser = user;
 
   return (
     <div className="wrapper h-screen">
       <div className="flex gap-4">
-        <UserInfo prefetchedUser={prefetchedUser}/>
-        <UserAdditional prefetchedUser={prefetchedUser}/>
+        <UserInfo prefetchedUser={user}/>
+        <UserAdditional prefetchedUser={user}/>
       </div>
     </div>
   );
