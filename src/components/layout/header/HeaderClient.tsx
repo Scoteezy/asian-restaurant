@@ -1,11 +1,10 @@
 'use client'
-import { ChevronDown, LogOutIcon, MapPin, Menu} from "lucide-react";
+import { LogOutIcon, Menu} from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import { type User } from "next-auth";
 import Link from "next/link";
 
-import AdminPanel from "@/components/features/admin";
 import { AuthModal } from "@/components/features/auth";
 import { LocationModal } from "@/components/features/location";
 import { Button } from "@/components/ui/button";

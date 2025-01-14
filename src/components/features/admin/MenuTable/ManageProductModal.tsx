@@ -1,9 +1,10 @@
 'use client'
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, Pencil } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
-import { addProductAction } from "@/server/actions/products.actions"
+import { addProductAction, updateProductAction } from "@/server/actions/products.actions"
+import { type ProductWithCategory } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { type Category } from "@prisma/client"
 import { upload } from '@vercel/blob/client';
@@ -46,6 +47,13 @@ const formSchema = z.object({
   }),
   spicy: z.boolean(),
   categoryId: z.string(),
+  gramm: z.number(),
+  nutrition: z.object({
+    proteins: z.number().min(0).max(100),
+    fats: z.number().min(0).max(100),
+    carbohydrates: z.number().min(0).max(100),
+    calories: z.number().min(0)
+  }).optional(),
   price: z.number(),
   image: z.any().optional(),
 })
@@ -60,7 +68,7 @@ const isSpicyValues = [
     label: "Нет",
   },
 ]
-const AddProductModal = ({categories}: {categories: Category[]}) => {
+const ManageProductModal = ({categories, product}: {categories: Category[], product?: ProductWithCategory}) => {
   console.log(categories)
   const [open, setOpen] = useState(false)
   const [popoverOpen, setPopoverOpen] = useState(false)
@@ -75,12 +83,19 @@ const AddProductModal = ({categories}: {categories: Category[]}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      spicy: false,
-      categoryId: "",
-      price: 0,
+      name: product?.name ?? "",
+      description: product?.description ?? "",
+      spicy: product?.isSpicy ?? false,
+      categoryId: product?.categoryId ?? "",
+      price: product?.price ?? 0,
+      gramm: product?.gramm ?? 0,
       image: null,
+      nutrition: product?.nutrition ?? {
+        proteins: 0,
+        fats: 0,
+        carbohydrates: 0,
+        calories: 0
+      }
     },
   })
   const handleImageUpload = async (file: File) => {
@@ -126,20 +141,36 @@ const AddProductModal = ({categories}: {categories: Category[]}) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      let imageUrl = '';
+      let imageUrl = product?.image ?? '';
 
       if (values.image instanceof FileList && values.image.length > 0) {
         imageUrl = await handleImageUpload(values.image[0]);
       }
-  
-      await addProductAction({
-        name: values.name,
-        description: values.description,
-        price: values.price,
-        categoryId: values.categoryId,
-        isSpicy: values.spicy,
-        image: imageUrl,
-      });
+
+      if (product) {
+        await updateProductAction({
+          id: product.id,
+          name: values.name,
+          description: values.description,
+          price: values.price,
+          gramm: values.gramm,
+          categoryId: values.categoryId,
+          isSpicy: values.spicy,
+          image: imageUrl,
+          nutrition: values.nutrition,
+        });
+      } else {
+        await addProductAction({
+          name: values.name,
+          description: values.description,
+          price: values.price,
+          gramm: values.gramm,
+          categoryId: values.categoryId,
+          isSpicy: values.spicy,
+          image: imageUrl,
+          nutrition: values.nutrition,
+        });
+      }
         
       router.refresh();
       setOpen(false);
@@ -162,22 +193,27 @@ const AddProductModal = ({categories}: {categories: Category[]}) => {
       open={open}
     >
       <DialogTrigger asChild>
-        <Button 
-          className="w-full"
-          variant="outline"
-        >
-          Добавить позицию
-        </Button>
+        {product ? (
+          <Button variant="outline">
+            <Pencil />
+          </Button>
+        ) : (
+          <Button className="w-full"
+            variant="outline"
+          >
+            Добавить позицию
+          </Button>
+        )}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Добавить продукт</DialogTitle>
+          <DialogTitle>{product ? 'Редактировать продукт' : 'Добавить продукт'}</DialogTitle>
           <DialogDescription>
-            Добавьте новый продукт в меню
+            {product ? 'Измените данные продукта' : 'Добавьте новый продукт в меню'}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-4"
+          <form className="space-y-4 "
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
@@ -211,6 +247,106 @@ const AddProductModal = ({categories}: {categories: Category[]}) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="gramm"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Граммы</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="330"
+                      type="number"
+                      {...field}
+                      className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="space-y-4 border-2 border-secondary p-4 rounded-lg">
+              <h3 className="font-semibold">Пищевая ценность (на 100г)</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="nutrition.proteins"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Белки (г)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nutrition.fats"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Жиры (г)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nutrition.carbohydrates"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Углеводы (г)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nutrition.calories"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Калории (ккал)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             <FormField
               control={form.control}
               name="price"
@@ -372,4 +508,4 @@ const AddProductModal = ({categories}: {categories: Category[]}) => {
   )
 }
 
-export default AddProductModal
+export  {ManageProductModal}

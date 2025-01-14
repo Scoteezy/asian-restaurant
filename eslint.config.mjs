@@ -68,7 +68,8 @@ export default [
       "**/*.map",
       "**/src/components/ui/**",
       "**/trace",
-      "**/transform.js"
+      "**/transform.js",
+      "**/*.example",
     ]
   },
 

@@ -12,15 +12,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
 
 import { LoginForm } from "./LoginForm"
-import { RegisterForm } from "./RegisterForm"
 function AuthModal() {
   const [open, setOpen] = useState(false)
 
@@ -48,22 +41,7 @@ function AuthModal() {
         </DialogHeader>
         <LoginForm />
 
-        {/* <Tabs className="w-full"
-          defaultValue="login"
-        >
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Вход</TabsTrigger>
-            <TabsTrigger 
-              value="register"
-            >Регистрация
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="login">
-          </TabsContent>
-          <TabsContent value="register">
-            <RegisterForm />
-          </TabsContent>
-        </Tabs> */}
+   
       </DialogContent>
     </Dialog>
   )

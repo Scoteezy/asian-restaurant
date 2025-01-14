@@ -3,10 +3,10 @@ import { type ProductWithCategory } from "@/types"
 import { type Category } from "@prisma/client"
 import Image from "next/image"
 
-import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-import AddProductModal from "./AddProductModal"
+import { DeleteProductModal } from "./DeleteProductModal"
+import {ManageProductModal} from "./ManageProductModal"
 
 const MenuTable = ({products, categories}: {products: ProductWithCategory[], categories: Category[]}) => {
   return (
@@ -17,7 +17,12 @@ const MenuTable = ({products, categories}: {products: ProductWithCategory[], cat
           <TableRow>
             <TableHead className="w-[100px]">Название</TableHead>
             <TableHead>Цена (₽)</TableHead>
-            <TableHead>Описание</TableHead>
+            <TableHead className="w-[200px]">Описание</TableHead>
+            <TableHead>Вес (г)</TableHead>
+            <TableHead>Углеводы (г)</TableHead>
+            <TableHead>Жиры (г)</TableHead>
+            <TableHead>Белки (г)</TableHead>
+            <TableHead>Калории (ккал)</TableHead>
             <TableHead>Дата создания</TableHead>
             <TableHead>Дата обновления</TableHead>
             <TableHead>Острая</TableHead>
@@ -32,16 +37,22 @@ const MenuTable = ({products, categories}: {products: ProductWithCategory[], cat
             <TableRow key={product.id}>
               <TableCell className="font-medium">{product.name}</TableCell>
               <TableCell>{product.price}</TableCell>
+             
               <TableCell>{product.description}</TableCell>
+              <TableCell>{product.gramm}</TableCell>
+              <TableCell>{product.nutrition?.carbohydrates}</TableCell>
+              <TableCell>{product.nutrition?.fats}</TableCell>
+              <TableCell>{product.nutrition?.proteins}</TableCell>
+              <TableCell>{product.nutrition?.calories}</TableCell>
               <TableCell>{product.createdAt.toLocaleDateString()}</TableCell>
               <TableCell>{product.updatedAt.toLocaleDateString()}</TableCell>
-              <TableCell>{product.isCpicy ? "Да" : "Нет"}</TableCell>
+              <TableCell>{product.isSpicy ? "Да" : "Нет"}</TableCell>
               <TableCell>{product.category.name}</TableCell>
               <TableCell className="text-right">
                 {product.image ? <Image alt="product"
                   className="rounded-md w-[100px] h-[100px]"
                   height={100}
-                  src={product.image as string}
+                  src={product.image}
                   width={100}
                 /> : (
                   <div className="w-[100px] h-[100px] bg-muted-foreground/10 rounded-md flex-center">
@@ -49,13 +60,19 @@ const MenuTable = ({products, categories}: {products: ProductWithCategory[], cat
                   </div>
                 )}
               </TableCell>
+              <TableCell className="flex justify-end gap-2">
+                <ManageProductModal categories={categories}
+                  product={product}
+                />
+                <DeleteProductModal product={product} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
         <TableFooter>
           <TableRow className="w-full">
             <TableCell colSpan={9}>
-              <AddProductModal categories={categories} />
+              <ManageProductModal categories={categories} />
             </TableCell>
           </TableRow>
         </TableFooter>

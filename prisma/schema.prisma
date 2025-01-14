@@ -36,8 +36,11 @@ model User {
     // Optional for WebAuthn support
     Authenticator Authenticator[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    Basket      Basket?
+    BasketItem  BasketItem[]
+    favoritedBy Favorite[]
 }
 
 model Account {
@@ -101,19 +104,60 @@ model Category {
     description String?
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @updatedAt
+    isDeleted   Boolean   @default(false)
     Product     Product[]
 }
 
 model Product {
-    id          String   @id @default(cuid())
+    id          String       @id @default(cuid())
     name        String
     description String?
-    isCpicy     Boolean
+    isSpicy     Boolean      @default(false)
     price       Int
+    gramm       Int
+    nutrition   Json?        @default("{}")
+    isDeleted   Boolean      @default(false)
     categoryId  String
-    category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    category    Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    image       String?
+    BaketItem   BasketItem[]
+    Favorite    Favorite[]
+}
 
-    image String?
+model Basket {
+    id        String       @id @default(cuid())
+    userId    String       @unique
+    user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    items     BasketItem[]
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @updatedAt
+}
+
+model BasketItem {
+    id        String   @id @default(cuid())
+    basketId  String
+    productId String
+    quantity  Int      @default(1)
+    basket    Basket   @relation(fields: [basketId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    User      User?    @relation(fields: [userId], references: [id])
+    userId    String?
+
+    @@unique([basketId, productId])
+}
+
+model Favorite {
+    id        String   @id @default(cuid())
+    userId    String
+    productId String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([userId, productId])
 }

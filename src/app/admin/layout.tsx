@@ -40,6 +40,11 @@ export default async function AdminLayout({
           <aside className="w-64 border-r min-h-[calc(100vh-4rem)]">
             <nav className="p-4 space-y-2">
               <Link className="block p-2 hover:bg-secondary/20 rounded-md"
+                href="/admin"
+              >
+                Главная
+              </Link>
+              <Link className="block p-2 hover:bg-secondary/20 rounded-md"
                 href="/admin/users"
               >
                 Пользователи
@@ -53,6 +58,11 @@ export default async function AdminLayout({
                 href="/admin/orders"
               >
                 Заказы
+              </Link>
+              <Link className="block p-2 hover:bg-secondary/20 rounded-md"
+                href="/admin/analytics"
+              >
+                Аналитика
               </Link>
               <Link className="block p-2 hover:bg-secondary/20 rounded-md"
                 href="/"
