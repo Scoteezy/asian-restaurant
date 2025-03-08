@@ -7,6 +7,7 @@ import { toast } from "@/hooks/use-toast"
 import { addToBasket } from "@/server/actions/basket.actions"
 import { type ProductWithNutrition } from "@/types"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -17,10 +18,12 @@ import {
 } from "@/components/ui/dialog"
 interface MenuItemModalProps {
   product: ProductWithNutrition
+  isFavorite?: boolean
 }
 
-const MenuItemModal = ({ product }: MenuItemModalProps) => {
+const MenuItemModal = ({ product, isFavorite = false }: MenuItemModalProps) => {
   const [open, setOpen] = useState(false)
+  const router = useRouter()
   const addProductToBasket = async () => {
     const response = await addToBasket(product.id)
 
@@ -29,7 +32,6 @@ const MenuItemModal = ({ product }: MenuItemModalProps) => {
         title: "Товар добавлен в корзину",
         description: "Товар добавлен в корзину",
       })
-      
     } else {
       toast({
         title: "Ошибка при добавлении товара в корзину",
@@ -45,14 +47,14 @@ const MenuItemModal = ({ product }: MenuItemModalProps) => {
       <DialogTrigger asChild>
         <div >
           <Button 
-            className="hidden sm:flex-center gap-2 rounded-full bg-transparent border 
-            border-main text-main font-bold hover:bg-main hover:text-white transition-all duration-700"
+            className={`${isFavorite ?"hidden" : "hidden sm:flex-center"}  gap-2 rounded-full bg-transparent border 
+            border-main text-main font-bold hover:bg-main hover:text-white transition-all duration-700`}
           >
             Выбрать <PlusIcon size={16} />
           </Button>
           <Button 
-            className="block sm:hidden flex-center gap-2 rounded-full bg-transparent border 
-            border-main text-main font-bold hover:bg-main hover:text-white transition-all duration-700"
+            className={`${isFavorite ? "block" : "block sm:hidden "} flex-center gap-2 rounded-full bg-transparent border 
+            border-main text-main font-bold hover:bg-main hover:text-white transition-all duration-700`}
             size={'icon'}
           >
             <PlusIcon size={16} />

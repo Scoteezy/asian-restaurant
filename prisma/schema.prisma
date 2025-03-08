@@ -150,7 +150,7 @@ model BasketItem {
 model Favorite {
     id        String   @id @default(cuid())
     userId    String
-    productId String
+    productId String   @unique
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())

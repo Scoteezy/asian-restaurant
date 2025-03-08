@@ -20,12 +20,13 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
     <div className="w-full bg-background h-[70px]">
       <div className="wrapper flex-between">
         <div className="flex-center text-2xl font-bold text-primary gap-5">
-          <Link className="flex flex-col "
-            href="/"
-          >
-            <span className="text-primary">A-Food</span>
-            <span className="text-muted-foreground text-xs">Азия здесь</span>
-          </Link>
+          {prefetchedUser?.role !== 'ADMIN' ? 
+            <Link className="flex flex-col "
+              href="/"
+            >
+              <span className="text-primary">A-Food</span>
+              <span className="text-muted-foreground text-xs">Азия здесь</span>
+            </Link>: <></>}
           {prefetchedUser ? prefetchedUser.role === 'ADMIN' ? <Link href="/admin">Админ панель</Link> : <LocationModal /> : <></>}
         </div>
         <div className="flex items-center gap-4">
@@ -45,10 +46,17 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
               </SheetHeader>
               <div className="flex flex-col gap-2 mt-2">
                 {prefetchedUser ? 
-                  <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
-                    href="/profile"
-                  >Профиль
-                  </Link> : <></>}
+                  <>
+                    <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
+                      href="/profile"
+                    >Профиль
+                    </Link> 
+                    <Link className="block text-md text-primary hover:text-primary/80 transition-all duration-300"
+                      href="/basket"
+                    >Корзина
+                    </Link> 
+                  </>
+                  : <></>}
               
                 <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
                   href="/"

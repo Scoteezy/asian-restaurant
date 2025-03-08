@@ -77,17 +77,16 @@ function UserDataModal() {
   }
   
   useEffect(() => {
-    void getUserAction().then((user) => {
-      setUser(user)
-      if (user) {
-        // Update form values when user data is loaded
+    void getUserAction().then((user) => { 
+      if (user.success && user.data) {
+        setUser(user.data)
         form.reset({
-          name: user.name ?? "",
-          phone: user.phone ?? "",
-          email: user.email ?? "",
+          name: user.data.name ?? "",
+          phone: user.data.phone ?? "",
+          email: user.data.email ?? "",
         })
       }
-      if (user && user.role === 'USER' && (!user?.name || !user?.phone || !user?.email && params.get('afterAuth') === 'true')) {
+      if (user.data && user.data.role === 'USER' && (!user.data.name || !user.data.phone || !user.data.email && params.get('afterAuth') === 'true')) {
         setOpen(true)
       }
     })

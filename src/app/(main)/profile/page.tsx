@@ -14,7 +14,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="wrapper h-screen">
-      <div className="flex gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <UserInfo prefetchedUser={user.data}/>
         <UserAdditional prefetchedUser={user.data}/>
       </div>

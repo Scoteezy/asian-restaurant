@@ -5,6 +5,7 @@ import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
 
+import AddFavoriteButton from "../favorite/AddFavoriteButton"
 import { MenuItemModal } from "./MenuItemModal"
 
 const MenuItem = ({ product }: { product: ProductWithNutrition }) => {
@@ -50,14 +51,7 @@ const MenuItem = ({ product }: { product: ProductWithNutrition }) => {
           </div>
           <div className="flex-center gap-2">
             <MenuItemModal product={product} />
-            <Button 
-              className="rounded-full bg-transparent text-main  hover:bg-main border-main border hover:text-white transition-all duration-700"
-              size="icon"
-            >
-              <HeartIcon 
-                size={24}
-              />
-            </Button>
+            <AddFavoriteButton productId={product.id} />
           </div>
         </div>
       </div>

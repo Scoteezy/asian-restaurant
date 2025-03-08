@@ -7,6 +7,7 @@ import { db } from "../db"
 import { getUserAction } from "./user.actions"
 
 export const getBasket = async (): Promise<Response<BasketWithItems>> => {
+  
   try {
     const user = await getUserAction()
 
@@ -25,6 +26,9 @@ export const getBasket = async (): Promise<Response<BasketWithItems>> => {
         items: {
           include: {
             product: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
           },
         },
       },
@@ -131,10 +135,13 @@ export const deleteFromBasket = async (productId: string): Promise<Response<null
     const existingItem = await db.basketItem.findFirst({
       where: {
         basketId: basket.id,
-        productId: productId,
+        id: productId,
       },
     })
 
+    console.log('basketId', basket.id)
+    console.log('productId', productId)
+    console.log('existingItem', existingItem)
     if (!existingItem) {
       return {
         success: false,

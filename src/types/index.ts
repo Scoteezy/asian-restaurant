@@ -1,8 +1,8 @@
 import { type Address } from "./Address"
 import { type Basket, type BasketItem, type BasketWithItems } from "./Basket"
 import { type Category, type CategoryWithProducts } from "./Category"
+import { type Favorite } from "./Favorite"
 import { type ProductWithCategory, type ProductWithNutrition } from "./Products"
-
 
 interface Response<T> {
   success: boolean
@@ -11,4 +11,4 @@ interface Response<T> {
 }
 
 
-export type { Address, Basket, BasketItem, BasketWithItems, Category, CategoryWithProducts, ProductWithCategory, ProductWithNutrition, Response }
+export type { Address, Basket, BasketItem, BasketWithItems, Category, CategoryWithProducts, Favorite, ProductWithCategory, ProductWithNutrition, Response }
