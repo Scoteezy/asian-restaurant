@@ -10,7 +10,6 @@ import * as tsParser from "@typescript-eslint/parser";
 import perfectionist from "eslint-plugin-perfectionist";
 import typeScriptEslint from "@typescript-eslint/eslint-plugin";
 import unusedImports from "eslint-plugin-unused-imports";
-import prettierPlugin from "eslint-plugin-prettier";
 import sonarjsPlugin from "eslint-plugin-sonarjs";
 import reactPlugin from "eslint-plugin-react";
 import commentLengthPlugin from "eslint-plugin-comment-length";

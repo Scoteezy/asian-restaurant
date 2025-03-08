@@ -4,9 +4,8 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 import { addProductAction, updateProductAction } from "@/server/actions/products.actions"
-import { type ProductWithCategory } from "@/types"
+import { type Category, type ProductWithCategory } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type Category } from "@prisma/client"
 import { upload } from '@vercel/blob/client';
 import Image from "next/image"
 import { useRouter } from "next/navigation"

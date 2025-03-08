@@ -8,15 +8,15 @@ import { UserInfo } from "@/components/features/profile/UserInfo";
 export default async function ProfilePage() {
   const user = await getUserAction()
 
-  if(!user) {
+  if(!user.success || !user.data) {
     redirect('/')
   }
 
   return (
     <div className="wrapper h-screen">
       <div className="flex gap-4">
-        <UserInfo prefetchedUser={user}/>
-        <UserAdditional prefetchedUser={user}/>
+        <UserInfo prefetchedUser={user.data}/>
+        <UserAdditional prefetchedUser={user.data}/>
       </div>
     </div>
   );

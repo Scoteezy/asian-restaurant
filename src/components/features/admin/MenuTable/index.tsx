@@ -1,6 +1,5 @@
 
-import { type ProductWithCategory } from "@/types"
-import { type Category } from "@prisma/client"
+import { type Category, type ProductWithCategory } from "@/types"
 import Image from "next/image"
 
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"

@@ -3,7 +3,7 @@ import { Trash } from "lucide-react"
 import { useState } from "react"
 
 import { deleteCategoryAction } from "@/server/actions/category.actions"
-import { type Category } from "@prisma/client"
+import { type Category } from "@/types"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"

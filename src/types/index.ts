@@ -1,5 +1,14 @@
 import { type Address } from "./Address"
+import { type Basket, type BasketItem, type BasketWithItems } from "./Basket"
 import { type Category, type CategoryWithProducts } from "./Category"
 import { type ProductWithCategory, type ProductWithNutrition } from "./Products"
 
-export type { Address, Category, CategoryWithProducts, ProductWithCategory, ProductWithNutrition }
+
+interface Response<T> {
+  success: boolean
+  data: null | T
+  error: null | string
+}
+
+
+export type { Address, Basket, BasketItem, BasketWithItems, Category, CategoryWithProducts, ProductWithCategory, ProductWithNutrition, Response }

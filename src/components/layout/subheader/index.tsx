@@ -1,9 +1,12 @@
 'use client'
 
-import { ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { getAllCategoriesAction } from "@/server/actions/category.actions";
+import { type Category } from "@/types";
+
+import BasketModal from "@/components/features/basket/BasketModal";
 import { Input } from "@/components/ui/input";
 const links = [
   {
@@ -32,7 +35,24 @@ const SubHeader = () => {
   const [isTransparent, setIsTransparent] = useState(false);
   const [activeCategory, setActiveCategory] = useState('');
 
-  
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await getAllCategoriesAction();
+
+      if (response.success && response.data) {
+        setCategories(response.data);
+      } else {
+        toast({
+          title: "Ошибка при получении данных категорий",
+          description: "Попробуйте позже",
+        })
+      }
+    }
+
+    void fetchCategories();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -89,7 +109,7 @@ const SubHeader = () => {
     >
       <div className="wrapper flex-between">
         <div className="flex-center text-2xl font-bold text-primary gap-5">
-          {links.map((link) => (
+          { categories.map((link) => (
             <button
               className={` hover:text-main transition-all duration-300 text-sm ${activeCategory === link.name ? 'text-main' : 'text-primary'}`}
               key={link.name}
@@ -103,15 +123,7 @@ const SubHeader = () => {
           <Input className="w-[200px] rounded-full"
             placeholder="Найти"
           />
-          <Button className="rounded-full text-md"
-            size="icon"
-            variant="secondary"
-          >
-            <ShoppingBag height={18}
-              size={18}
-              width={18}
-            />
-          </Button>
+          <BasketModal />
         </div>
       </div>
     </div>

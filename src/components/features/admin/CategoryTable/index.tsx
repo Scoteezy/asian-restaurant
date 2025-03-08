@@ -1,6 +1,6 @@
 import { Trash } from "lucide-react"
 
-import { type Category } from "@prisma/client"
+import { type Category } from "@/types"
 
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"

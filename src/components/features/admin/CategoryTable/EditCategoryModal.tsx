@@ -4,8 +4,8 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 import { updateCategoryAction } from "@/server/actions/category.actions"
+import { type Category } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type Category } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import z from "zod"
 

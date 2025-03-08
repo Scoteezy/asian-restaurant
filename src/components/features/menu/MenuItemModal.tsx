@@ -1,9 +1,10 @@
 "use client"
-'use client'
 
 import { PlusIcon, SoupIcon } from "lucide-react"
 import { useState } from "react"
 
+import { toast } from "@/hooks/use-toast"
+import { addToBasket } from "@/server/actions/basket.actions"
 import { type ProductWithNutrition } from "@/types"
 import Image from "next/image"
 
@@ -14,13 +15,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-
 interface MenuItemModalProps {
   product: ProductWithNutrition
 }
 
 const MenuItemModal = ({ product }: MenuItemModalProps) => {
   const [open, setOpen] = useState(false)
+  const addProductToBasket = async () => {
+    const response = await addToBasket(product.id)
+
+    if (response.success) {
+      toast({
+        title: "Товар добавлен в корзину",
+        description: "Товар добавлен в корзину",
+      })
+      
+    } else {
+      toast({
+        title: "Ошибка при добавлении товара в корзину",
+        description: "Попробуйте позже",
+      })
+    }
+  }
 
   return (
     <Dialog onOpenChange={setOpen}
@@ -85,7 +101,9 @@ const MenuItemModal = ({ product }: MenuItemModalProps) => {
 
           <Button 
             className="w-full rounded-full bg-main text-white hover:bg-main/90"
+            onClick={() => void addProductToBasket()}
             variant="secondary"
+
           >
             Добавить за {product.price} ₽
           </Button>
