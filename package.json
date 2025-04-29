@@ -6,7 +6,7 @@
     "postinstall": "prisma generate",
     "-------- Prepair Database & Stripe Event localhost forwarding --------": "",
     "db:generate-types": "dotenv -e .env.development.local -- prisma generate",
-    "db:push:development": "dotenv -e .env.development.local -- npx prisma db push",
+    "db:push:development": "dotenv -e .env.development.local -- npx prisma db push --accept-data-loss",
     "db:dev": "npm run db:push:development && npm run db:generate-types",
     "-------- Run --------": "",
     "dev": "next dev --turbopack",
