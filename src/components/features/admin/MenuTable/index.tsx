@@ -70,7 +70,7 @@ const MenuTable = ({products, categories}: {products: ProductWithCategory[], cat
         </TableBody>
         <TableFooter>
           <TableRow className="w-full">
-            <TableCell colSpan={9}>
+            <TableCell colSpan={14}>
               <ManageProductModal categories={categories} />
             </TableCell>
           </TableRow>

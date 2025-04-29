@@ -1,4 +1,4 @@
-import { BarChart3, ShoppingBag, Users, Utensils } from "lucide-react"
+import { BarChart3, MapPin, ShoppingBag, Users, Utensils } from "lucide-react"
 
 import Link from "next/link"
 
@@ -42,7 +42,19 @@ const AdminPage = () => {
             </CardContent>
           </Card>
         </Link>
-
+        <Link href="/admin/restaurants">
+          <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Рестораны</CardTitle>
+              <MapPin className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Адреса ресторанов для самовывоза
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
         <Link href="/admin/orders">
           <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -56,7 +68,7 @@ const AdminPage = () => {
             </CardContent>
           </Card>
         </Link>
-
+   
         <Link href="/admin/analytics">
           <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

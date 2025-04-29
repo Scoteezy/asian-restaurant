@@ -18,7 +18,7 @@ export const FavoriteList = async () => {
     )
   }
   return (
-    <div className="flex flex-col gap-2 w-full max-h-[400px]">
+    <div className="flex flex-col gap-2 w-full h-[270px]">
       <h2 className="text-xl font-bold text-primary">Избранное</h2>
      
       {favorite.data?.length > 0 ? (

@@ -40,6 +40,8 @@ model User {
     updatedAt   DateTime   @updatedAt
     Basket      Basket?
     favoritedBy Favorite[]
+    Location    Location[]
+    Order       Order[]
 }
 
 model Account {
@@ -116,13 +118,14 @@ model Product {
     gramm       Int
     nutrition   Json?        @default("{}")
     isDeleted   Boolean      @default(false)
-    categoryId  String
-    category    Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    categoryId  String?
+    category    Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
     image       String?
     BaketItem   BasketItem[]
     Favorite    Favorite[]
+    OrderItem   OrderItem[]
 }
 
 model Basket {
@@ -157,4 +160,54 @@ model Favorite {
     updatedAt DateTime @updatedAt
 
     @@unique([userId, productId])
+}
+
+model Location {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    address   String
+    isPrivate Boolean  @default(false)
+    entrance  String?
+    doorCode  String?
+    floor     String?
+    apartment String?
+    comment   String?
+    Order     Order[]
+}
+
+model Order {
+    id         String      @id @default(cuid())
+    userId     String
+    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+    locationId String
+    location   Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+    items      OrderItem[]
+}
+
+model OrderItem {
+    id        String   @id @default(cuid())
+    orderId   String
+    order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    productId String
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    quantity  Int
+    price     Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model RestaurantLocation {
+    id           String   @id @default(cuid())
+    name         String
+    address      String
+    workingHours String
+    phone        String
+    isActive     Boolean  @default(true)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
 }

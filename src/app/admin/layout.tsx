@@ -55,6 +55,11 @@ export default async function AdminLayout({
                 Меню
               </Link>
               <Link className="block p-2 hover:bg-secondary/20 rounded-md"
+                href="/admin/restaurants"
+              >
+                Рестораны
+              </Link>
+              <Link className="block p-2 hover:bg-secondary/20 rounded-md"
                 href="/admin/orders"
               >
                 Заказы

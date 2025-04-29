@@ -6,7 +6,7 @@ import { type User } from "next-auth";
 import Link from "next/link";
 
 import { AuthModal } from "@/components/features/auth";
-import { LocationModal } from "@/components/features/location";
+import { LocationModal } from "@/components/features/location/LocationModal";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -27,7 +27,7 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
               <span className="text-primary">A-Food</span>
               <span className="text-muted-foreground text-xs">Азия здесь</span>
             </Link>: <></>}
-          {prefetchedUser ? prefetchedUser.role === 'ADMIN' ? <Link href="/admin">Админ панель</Link> : <LocationModal /> : <></>}
+          {prefetchedUser ? prefetchedUser.role === 'ADMIN' && <Link href="/admin">Админ панель</Link> : <></>}
         </div>
         <div className="flex items-center gap-4">
           <a className="text-md text-primary font-medium"

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/tabs"
 
 import FavoriteList from "../favorite/FavoriteList";
+import { LocationList } from "../location/LocationList";
+import { LocationModal } from "../location/LocationModal";
 const UserAdditional= ({prefetchedUser}: {prefetchedUser: User}) => {
   return (
     <div className="flex flex-col gap-2 p-3 border-2 border-secondary rounded-lg w-full">
@@ -46,16 +48,11 @@ const UserAdditional= ({prefetchedUser}: {prefetchedUser: User}) => {
           <div className="flex flex-col gap-2">
             <div className="flex-between ">
               <h2 className="text-xl font-bold text-primary">Адреса доставки</h2>
-              <Button className="rounded-full  text-white bg-secondary hover:bg-secondary/80"
-                variant="default"
-              > 
-                <PlusIcon height={18}
-                  size={18}
-                  width={18}
-                /> Добавить
-              </Button>
+              <LocationModal/>
             </div>
-            <p className="text-sm text-gray-500 flex items-center">Тут пока что ничего нет.</p>
+            <div className="flex flex-col gap-2">
+              <LocationList/>
+            </div>
           </div>
         </TabsContent>
         

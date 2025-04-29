@@ -2,7 +2,9 @@ import { type Address } from "./Address"
 import { type Basket, type BasketItem, type BasketWithItems } from "./Basket"
 import { type Category, type CategoryWithProducts } from "./Category"
 import { type Favorite } from "./Favorite"
+import { type Location, type RawLocation } from "./Location"
 import { type ProductWithCategory, type ProductWithNutrition } from "./Products"
+import { type RawRestaurantPickupLocation, type RestaurantPickupLocation } from "./RestaurantLocation"
 
 interface Response<T> {
   success: boolean
@@ -10,5 +12,4 @@ interface Response<T> {
   error: null | string
 }
 
-
-export type { Address, Basket, BasketItem, BasketWithItems, Category, CategoryWithProducts, Favorite, ProductWithCategory, ProductWithNutrition, Response }
+export type { Address, Basket, BasketItem, BasketWithItems, Category, CategoryWithProducts, Favorite, Location, ProductWithCategory, ProductWithNutrition, RawLocation, RawRestaurantPickupLocation, Response, RestaurantPickupLocation }
