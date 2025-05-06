@@ -74,8 +74,12 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
                 >Акции и мероприятия
                 </Link>
                 <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
-                  href="/"
+                  href="/legal"
                 >Правовая информация
+                </Link>
+                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
+                  href="/delivery"
+                >Доставка и оплата
                 </Link>
                 <div className="mt-4 w-full">
                   {prefetchedUser ? 
