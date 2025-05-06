@@ -13,8 +13,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "A-Food | Админ панель",
-  description: "A-Food | Админ панель",
+  title: "Nami | Админ панель",
+  description: "Nami | Админ панель",
 };
 export default async function AdminLayout({
   children,

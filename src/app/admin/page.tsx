@@ -92,7 +92,7 @@ const AdminPage = () => {
             Для получения помощи по использованию админ-панели обратитесь к документации или в службу поддержки.
           </p>
           <p className="text-sm text-muted-foreground">
-            Email поддержки: support@a-food.com
+            Email поддержки: support@Nami.com
           </p>
           <p className="text-sm text-muted-foreground">
             Телефон: +7 (919) 876-88-51

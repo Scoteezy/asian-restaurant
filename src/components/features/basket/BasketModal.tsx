@@ -10,6 +10,8 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
+import { OrderItem } from "../order/OrderItem"
+import OrderModal from "../order/OrderModal"
 import { BasketItem } from "./BasketItem"
 const BasketModal = () => {
   const [open, setOpen] = useState(false)
@@ -61,7 +63,7 @@ const BasketModal = () => {
         )}
         <div className="flex flex-col gap-4">
           {basket?.items.map((item) => (
-            <BasketItem fetchBasket={fetchBasket}
+            <OrderItem fetchBasket={fetchBasket}
               item={item}
               key={item.id}
             />
@@ -75,15 +77,9 @@ const BasketModal = () => {
             <div className="mt-4 pt-4 border-t border-gray-200 flex  items-center justify-end">
             
             
-              <Button className=" text-md bg-main text-white flex items-center justify-center gap-2 "
-              
-                variant="destructive"
-              >  
-                Оформить заказ -
-                <p className=" ">
-                  {basket?.items.reduce((total, item) => total + (item.product.price * item.quantity), 0)} ₽
-                </p>
-              </Button>
+              <OrderModal 
+                totalPrice={basket?.items.reduce((total, item) => total + (item.product.price * item.quantity), 0)}
+              />
             </div>
           )}
         </div>

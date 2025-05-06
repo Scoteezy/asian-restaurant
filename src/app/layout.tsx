@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { SessionProvider } from "next-auth/react";
 
-import { Geist, Geist_Mono } from "next/font/google";
+import { Audiowide, Geist, Geist_Mono } from "next/font/google";
 
 import { Toaster } from "@/components/ui/toaster"
 
@@ -19,9 +19,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const audiowide = Audiowide({
+  variable: "--font-audiowide",
+  subsets: ["latin"],
+  weight: ['400'],
+});
+
 export const metadata: Metadata = {
-  title: "A-Food",
-  description: "A-Food - доставка еды",
+  title: "Nami",
+  description: "Nami - доставка еды",
 };
 
 export default function RootLayout({
@@ -31,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark font-sans`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${audiowide.variable} antialiased dark font-sans`}>
         <SessionProvider>
           {children}
           <Toaster />

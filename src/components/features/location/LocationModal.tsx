@@ -137,7 +137,7 @@ function LocationModal({isEdit = false, address}: {isEdit?: boolean, address?: L
       </DialogTrigger>
       <DialogContent className="sm:max-w-[825px] sm:min-h-[400px] flex flex-col gap-4">
         <DialogHeader>
-          <DialogTitle>A-Food</DialogTitle>
+          <DialogTitle>Nami</DialogTitle>
           <DialogDescription>
             {isEdit ? "Редактировать адрес" : "Добавить адрес доставки"}
           </DialogDescription>

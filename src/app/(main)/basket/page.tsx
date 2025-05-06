@@ -6,7 +6,7 @@ import { redirect } from "next/navigation"
 import { BasketItem } from "@/components/features/basket/BasketItem"
 import { Button } from "@/components/ui/button"
 export const metadata: Metadata = {
-  title: "Корзина | A-Food",
+  title: "Корзина | Nami",
   description: "Корзина",
 }
 export default async function BasketPage() {

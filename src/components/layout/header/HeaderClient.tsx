@@ -21,11 +21,10 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
       <div className="wrapper flex-between">
         <div className="flex-center text-2xl font-bold text-primary gap-5">
           {prefetchedUser?.role !== 'ADMIN' ? 
-            <Link className="flex flex-col "
+            <Link className="flex flex-col hover:text-main transition-all duration-300 font-audiowide"
               href="/"
             >
-              <span className="text-primary">A-Food</span>
-              <span className="text-muted-foreground text-xs">Азия здесь</span>
+              Nami 🍜
             </Link>: <></>}
           {prefetchedUser ? prefetchedUser.role === 'ADMIN' && <Link href="/admin">Админ панель</Link> : <></>}
         </div>
@@ -63,12 +62,8 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
                 >Главная
                 </Link>
                 <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
-                  href="/"
+                  href="/bonus"
                 >Бонусная программа
-                </Link>
-                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
-                  href="/"
-                >Вакансии
                 </Link>
                 <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
                   href="/"
