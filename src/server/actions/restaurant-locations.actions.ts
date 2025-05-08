@@ -96,3 +96,23 @@ export const deleteRestaurantLocationAction = async (id: string): Promise<Respon
     }
   }
 } 
+export const getRestaurantLocationByIdAction = async (id: string): Promise<Response<RestaurantPickupLocation>> => {
+  try {
+    const location = await db.restaurantLocation.findUnique({
+      where: { id },
+    })
+
+    return {
+      success: true,
+      data: location as RestaurantPickupLocation,
+      error: null,
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      success: false,
+      data: null,
+      error: "Failed to get restaurant location by id",
+    }
+  }
+}

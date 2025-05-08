@@ -19,6 +19,13 @@ enum Role {
     STAFF
 }
 
+enum OrderStatus {
+    PENDING
+    CONFIRMED
+    DELIVERED
+    CANCELLED
+}
+
 //////////////////// Authentication ////////////////////
 // Necessary for Next auth
 
@@ -180,14 +187,22 @@ model Location {
 }
 
 model Order {
-    id         String      @id @default(cuid())
-    userId     String
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt  DateTime    @default(now())
-    updatedAt  DateTime    @updatedAt
-    locationId String
-    location   Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
-    items      OrderItem[]
+    id           String              @id @default(cuid())
+    userId       String
+    user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name         String
+    phone        String
+    email        String
+    payment      String
+    createdAt    DateTime            @default(now())
+    updatedAt    DateTime            @updatedAt
+    locationId   String?
+    location     Location?           @relation(fields: [locationId], references: [id], onDelete: Cascade)
+    restaurantId String?
+    restaurant   RestaurantLocation? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+    comment      String?
+    status       OrderStatus         @default(PENDING)
+    items        OrderItem[]
 }
 
 model OrderItem {
@@ -197,7 +212,6 @@ model OrderItem {
     productId String
     product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
     quantity  Int
-    price     Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
@@ -211,4 +225,5 @@ model RestaurantLocation {
     isActive     Boolean  @default(true)
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
+    Order        Order[]
 }

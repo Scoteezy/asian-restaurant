@@ -4,13 +4,14 @@ import { useEffect, useState } from "react"
 
 import { toast } from "@/hooks/use-toast"
 import { addToBasket, deleteFromBasket, getBasket } from "@/server/actions/basket.actions"
+import { getUserAction } from "@/server/actions/user.actions"
 import { type BasketWithItems } from "@/types"
+import { type User } from "@prisma/client"
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-import { OrderItem } from "../order/OrderItem"
 import OrderModal from "../order/OrderModal"
 import { BasketItem } from "./BasketItem"
 const BasketModal = () => {
@@ -25,8 +26,7 @@ const BasketModal = () => {
 
   useEffect(() => {
     setInitialLoad(true)
-
-    if (open) {
+    if(open) {
       void fetchBasket()
     }
     setInitialLoad(false)
@@ -40,7 +40,7 @@ const BasketModal = () => {
       
     >
       <DialogTrigger asChild>
-        <Button className="rounded-full text-md"
+        <Button className="rounded-full text-md relative"
           size="icon"
           variant="secondary"
         >
@@ -48,6 +48,7 @@ const BasketModal = () => {
             size={18}
             width={18}
           />
+          
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -63,7 +64,7 @@ const BasketModal = () => {
         )}
         <div className="flex flex-col gap-4">
           {basket?.items.map((item) => (
-            <OrderItem fetchBasket={fetchBasket}
+            <BasketItem fetchBasket={fetchBasket}
               item={item}
               key={item.id}
             />

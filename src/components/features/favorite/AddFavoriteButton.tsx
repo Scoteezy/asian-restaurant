@@ -5,14 +5,23 @@ import { useEffect } from "react"
 
 import { toast } from "@/hooks/use-toast"
 import { addOrDeleteFavorite, getFavorites } from "@/server/actions/favorite.actions"
+import { getUserAction } from "@/server/actions/user.actions"
+import { type User } from "@prisma/client"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 const AddFavoriteButton = ({ productId }: { productId: string }) => {
   const [isFavorite, setIsFavorite] = useState(false)
+  const [user, setUser] = useState<null | User>(null)
   const router = useRouter()
+  const fetchUser = async () => {
+    const response = await getUserAction()
+
+    setUser(response.data)
+  }
 
   useEffect(() => {
+    void fetchUser()
     const fetchFavorites = async () => {
       const response = await getFavorites()
 
@@ -42,17 +51,22 @@ const AddFavoriteButton = ({ productId }: { productId: string }) => {
   }
 
   return (
-    <Button 
-      className={`rounded-full bg-transparent ${isFavorite ? "bg-main text-white hover:bg-transparent hover:text-white" : "text-main hover:bg-main hover:text-white"}  
+    <>
+      {user?.id && (
+        <Button 
+          className={`rounded-full bg-transparent ${isFavorite ? "bg-main text-white hover:bg-transparent hover:text-white" : "text-main hover:bg-main hover:text-white"}  
        border-main border  transition-all duration-700`}
-      onClick={() => addFavorite()}
-      size="icon"
-    >
-      <HeartIcon 
-        className={`${isFavorite ? "fill-white hover:fill-none" : "fill-none hover:fill-white"}`}
-        size={24}
-      />
-    </Button>
+          onClick={() => addFavorite()}
+          size="icon"
+        >
+          <HeartIcon 
+            className={`${isFavorite ? "fill-white hover:fill-none" : "fill-none hover:fill-white"}`}
+            size={24}
+          />
+        </Button>
+      )
+      }
+    </>
   )
 }
 

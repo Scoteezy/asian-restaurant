@@ -1,11 +1,13 @@
 "use client"
 
 import { PlusIcon, SoupIcon } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { toast } from "@/hooks/use-toast"
 import { addToBasket } from "@/server/actions/basket.actions"
+import { getUserAction } from "@/server/actions/user.actions"
 import { type ProductWithNutrition } from "@/types"
+import { type User } from "@prisma/client"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
@@ -16,6 +18,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+
+import { AuthModal } from "../auth"
 interface MenuItemModalProps {
   product: ProductWithNutrition
   isFavorite?: boolean
@@ -23,7 +27,16 @@ interface MenuItemModalProps {
 
 const MenuItemModal = ({ product, isFavorite = false }: MenuItemModalProps) => {
   const [open, setOpen] = useState(false)
-  const router = useRouter()
+  const [user, setUser] = useState<null | User>(null)
+  const fetchUser = async () => {
+    const response = await getUserAction()
+
+    setUser(response.data)
+  }
+
+  useEffect(() => {
+    void fetchUser()
+  }, [])
   const addProductToBasket = async () => {
     const response = await addToBasket(product.id)
 
@@ -101,14 +114,22 @@ const MenuItemModal = ({ product, isFavorite = false }: MenuItemModalProps) => {
             </div>
           </div>
 
-          <Button 
-            className="w-full rounded-full bg-main text-white hover:bg-main/90"
-            onClick={() => void addProductToBasket()}
-            variant="secondary"
-
-          >
-            Добавить за {product.price} ₽
-          </Button>
+          {user?.id ? (
+            <Button 
+              className="w-full rounded-full bg-main text-white hover:bg-main/90"
+              onClick={() => void addProductToBasket()}
+              variant="secondary"
+            >
+              Добавить за {product.price} ₽
+            </Button>
+          ):(
+            <AuthModal button={<Button className="w-full rounded-full bg-main text-white hover:bg-main/90"
+              variant="secondary"
+            >
+              Авторизуйтесь
+            </Button>}
+            />
+          )}
         </div>
       </DialogContent>
     </Dialog>

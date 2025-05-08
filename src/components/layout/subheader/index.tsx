@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { getAllCategoriesAction } from "@/server/actions/category.actions";
 import { type Category } from "@/types";
+import { type User } from "@prisma/client";
 
 import BasketModal from "@/components/features/basket/BasketModal";
 import { Input } from "@/components/ui/input";
@@ -31,7 +32,7 @@ const links = [
     name: 'Напитки',
   }
 ]
-const SubHeader = () => {
+const SubHeader = ({user}: {user: null | User}) => {
   const [isTransparent, setIsTransparent] = useState(false);
   const [activeCategory, setActiveCategory] = useState('');
 
@@ -119,12 +120,9 @@ const SubHeader = () => {
             </button>
           ))}
         </div>
-        <div className="flex-center gap-4">
-          <Input className="w-[200px] rounded-full"
-            placeholder="Найти"
-          />
+        {user?.id && (
           <BasketModal />
-        </div>
+        )}
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 
 import { LoginForm } from "./LoginForm"
-function AuthModal() {
+function AuthModal({button}:{button: React.ReactNode}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -22,14 +22,7 @@ function AuthModal() {
       open={open}
     >
       <DialogTrigger asChild>
-        <Button className="rounded-full w-full"
-          variant='secondary'
-        > 
-          <UserIcon height={18}
-            size={18}
-            width={18}
-          /> Войти
-        </Button>
+        {button}
 
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

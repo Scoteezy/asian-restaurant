@@ -40,7 +40,7 @@ const FormSchema = z.object({
 
 type AddressFormData = z.infer<typeof FormSchema>
 
-function LocationModal({isEdit = false, address}: {isEdit?: boolean, address?: Location}) {
+function LocationModal({isEdit = false, address, setNeedRefresh}: {isEdit?: boolean, address?: Location, setNeedRefresh?: (needRefresh: boolean) => void}) {
   const [open, setOpen] = useState(false)
   const router = useRouter()
   const form = useForm<AddressFormData>({
@@ -95,11 +95,11 @@ function LocationModal({isEdit = false, address}: {isEdit?: boolean, address?: L
     if (response.success) {
       setOpen(false)
       form.reset()
+      router.refresh()
       toast({
         title: "Адрес добавлен",
         description: "Адрес добавлен успешно",
       })
-      router.refresh()
     } else {
       toast({
         title: "Ошибка",

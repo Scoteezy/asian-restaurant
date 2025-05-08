@@ -123,3 +123,23 @@ export const deleteLocationAction = async (id: string): Promise<Response<Locatio
     }
   }
 }
+export const getLocationByIdAction = async (id: string): Promise<Response<Location>> => {
+  try {
+    const location = await db.location.findUnique({
+      where: { id },
+    })
+
+    return {
+      success: true,
+      data: location as Location,
+      error: null,
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      success: false,
+      data: null,
+      error: "Failed to get location by id",
+    }
+  } 
+}

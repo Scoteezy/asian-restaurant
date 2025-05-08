@@ -4,7 +4,7 @@ import { type Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import { BasketItem } from "@/components/features/basket/BasketItem"
-import { Button } from "@/components/ui/button"
+import OrderModal from "@/components/features/order/OrderModal"
 export const metadata: Metadata = {
   title: "Корзина | Nami",
   description: "Корзина",
@@ -43,15 +43,7 @@ export default async function BasketPage() {
           <div className="mt-4 pt-4 border-t border-gray-200 flex  items-center justify-end">
             
             
-            <Button className=" text-md bg-main text-white flex items-center justify-center gap-2 "
-              
-              variant="destructive"
-            >  
-              Оформить заказ -
-              <p className=" ">
-                {basket?.data?.items.reduce((total, item) => total + (item.product.price * item.quantity), 0)} ₽
-              </p>
-            </Button>
+            <OrderModal totalPrice={basket?.data?.items.reduce((total, item) => total + (item.product.price * item.quantity), 0)}/>
           </div>
         )}
       </div>

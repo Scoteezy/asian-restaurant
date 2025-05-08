@@ -19,7 +19,6 @@ const Footer = () => {
             <li className="hover:text-main transition-all duration-300"><Link href="/bonus">Бонусная программа</Link></li>
             <li className="hover:text-main transition-all duration-300"><Link href="/events">Акции и мероприятия</Link></li>
             <li className="hover:text-main transition-all duration-300"><Link href="/legal">Правовая информация</Link></li>
-            <li className="hover:text-main transition-all duration-300"><Link href="/contacts">Контакты</Link></li>
             <li className="hover:text-main transition-all duration-300"><Link href="/delivery">Доставка и оплата</Link></li>
           </ul>
         </div>

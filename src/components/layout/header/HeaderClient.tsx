@@ -1,5 +1,5 @@
 'use client'
-import { LogOutIcon, Menu} from "lucide-react";
+import { LogOutIcon, Menu, UserIcon} from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import { type User } from "next-auth";
@@ -66,11 +66,7 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
                 >Бонусная программа
                 </Link>
                 <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
-                  href="/"
-                >Контакты
-                </Link>  
-                <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
-                  href="/"
+                  href="/events"
                 >Акции и мероприятия
                 </Link>
                 <Link className="text-md text-primary hover:text-primary/80 transition-all duration-300"
@@ -93,7 +89,15 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
                         size={18}
                         width={18}
                       /> Выйти
-                    </Button> : <AuthModal />}
+                    </Button> : <AuthModal button={<Button className="rounded-full w-full"
+                      variant='secondary'
+                    > 
+                      <UserIcon height={18}
+                        size={18}
+                        width={18}
+                      /> Войти
+                                                   </Button>}
+                    />}
                 </div>
 
               </div>

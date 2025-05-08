@@ -1,4 +1,13 @@
-import React from "react";
+"use client"
+import { Loader2, UserIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
+import { getUserAction } from "@/server/actions/user.actions";
+import { auth } from "@/server/auth";
+import { type User } from "@prisma/client";
+
+import { AuthModal } from "@/components/features/auth";
+import { Button } from "@/components/ui/button";
 
 const bonuses = [
   {
@@ -117,18 +126,74 @@ const bonuses = [
 ];
 
 export default function BonusPage() {
+  const [user, setUser] = useState<null | User>(null);
+  const [loading, setLoading] = useState(true);
+  const isAuthenticated = !!user;
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true)
+      const user = await getUserAction()
+
+      if (user.success) {
+        setUser(user.data);
+      }
+      setLoading(false)
+    };
+
+    void fetchUser();
+  }, []);
   return (
     <div className="min-h-screen bg-[#181818] text-white py-10 px-4">
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {bonuses.map((item, idx) => (
-          <div className="flex flex-col gap-4 bg-[#181818] rounded-lg p-4 min-h-[160px]"
-            key={idx}
-          >
-            <div className="w-12 h-12">{item.icon}</div>
-            <div className="font-semibold text-lg leading-tight">{item.title}</div>
-            <div className="text-[#B0B0B0] text-base">{item.desc}</div>
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl font-bold mb-4">Бонусная программа</h1>
+          <p className="text-[#B0B0B0] mb-8 max-w-2xl mx-auto">
+            Участвуйте в нашей бонусной программе и получайте дополнительные преимущества при каждом заказе
+          </p>
+          <div className="flex justify-center">
+            {loading ? 
+              <Button 
+                className="bg-[#FF2C2C] hover:bg-[#FF2C2C]/90 text-white px-8"
+                size="lg"
+              >
+                <Loader2 className="animate-spin" />
+              </Button> 
+              : isAuthenticated ? (
+                <Button 
+                  className="bg-[#FF2C2C] hover:bg-[#FF2C2C]/90 text-white px-8"
+                  onClick={() => {
+                    ("/bonus/create");
+                  }}
+                  size="lg"
+                >
+                  Копить бонусы
+                </Button>
+              ) : (
+                <AuthModal button={ 
+                  <Button 
+                    className="bg-[#FF2C2C] hover:bg-[#FF2C2C]/90 text-white px-8"
+                
+                    size="lg"
+                  >
+                    Получить бонусную карту
+                  </Button>
+                }
+                />
+              )}
           </div>
-        ))}
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {bonuses.map((item, idx) => (
+            <div className="flex flex-col gap-4 bg-[#181818] rounded-lg p-4 min-h-[160px]"
+              key={idx}
+            >
+              <div className="w-12 h-12">{item.icon}</div>
+              <div className="font-semibold text-lg leading-tight">{item.title}</div>
+              <div className="text-[#B0B0B0] text-base">{item.desc}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

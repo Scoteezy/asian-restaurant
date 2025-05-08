@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 
 import { LocationModal } from "./LocationModal"
-export const LocationItem = ({address}: {address: Location}) => {
+export const LocationItem = ({address, setActive, selectedAddress, isEdit = true}: 
+  {address: Location, setActive?: (active: string) => void, selectedAddress?: null | {id: string, type: "delivery" | "selfPickup"}, isEdit?: boolean}) => {
   const router = useRouter()
 
   const handleDelete = async () => {
@@ -20,7 +21,7 @@ export const LocationItem = ({address}: {address: Location}) => {
         title: "Адрес удален",
       })
       router.refresh()
-    }else{
+    } else {
       toast({
         title: "Ошибка при удалении адреса",
       })
@@ -31,8 +32,17 @@ export const LocationItem = ({address}: {address: Location}) => {
     <div 
       className={`
   flex items-center justify-between gap-2 placeholder:text-muted-foreground 
-  px-2 py-3 rounded-md bg-muted-foreground/10 border border-muted-foreground/20 transition-all duration-300 bg-primary text-white
+  px-2 py-3 rounded-md  border  transition-all duration-300  text-white
+  ${selectedAddress?.id === address.id ? "bg-primary text-white border-main" : "bg-muted-foreground/10 border-muted-foreground/20"}
 `}
+      onClick={() => setActive?.(address.id)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          setActive?.(address.id)
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
       <div className="flex items-center gap-2">
         <MapPin className="w-6 h-6"
@@ -43,17 +53,21 @@ export const LocationItem = ({address}: {address: Location}) => {
         <p className="text-md font-bold">{address.address}</p>
       </div>
       <div className="flex items-center self-end gap-2">
-        <LocationModal address={address}
-          isEdit={true}
-        />
-        <Button
-          className="ml-auto"
-          onClick={handleDelete}
-          size="icon"
-          variant="ghost"
-        >
-          <Trash className="w-4 h-4" />
-        </Button>
+        {isEdit && (
+          <>
+            <LocationModal address={address} 
+              isEdit={true}
+            />
+            <Button
+              className="ml-auto"
+              onClick={handleDelete}
+              size="icon"
+              variant="ghost"
+            >
+              <Trash className="w-4 h-4" />
+            </Button>
+          </>
+        )}
       </div>
     </div>
   )

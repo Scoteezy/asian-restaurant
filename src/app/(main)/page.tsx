@@ -1,11 +1,15 @@
 
+import { getUserAction } from "@/server/actions/user.actions";
+
 import { Menu } from "@/components/features/menu";
 import { SubHeader } from "@/components/layout/subheader";
 
-export default function Home() {
+export default  async function Home() {
+  const user = await getUserAction()
+
   return (
     <>
-      <SubHeader />
+      <SubHeader user={user.data} />
       <Menu />
     </>
   );

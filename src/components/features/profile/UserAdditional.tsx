@@ -13,6 +13,7 @@ import {
 import FavoriteList from "../favorite/FavoriteList";
 import { LocationList } from "../location/LocationList";
 import { LocationModal } from "../location/LocationModal";
+import { OrdersList } from "../order/OrdersLIst";
 const UserAdditional= ({prefetchedUser}: {prefetchedUser: User}) => {
   return (
     <div className="flex flex-col gap-2 p-3 border-2 border-secondary rounded-lg w-full">
@@ -41,7 +42,7 @@ const UserAdditional= ({prefetchedUser}: {prefetchedUser: User}) => {
         <TabsContent value="orders">
           <div className="flex flex-col gap-2">
             <h2 className="text-xl font-bold text-primary">Ваши заказы</h2>
-            <p className="text-sm text-gray-500 flex items-center">Тут пока что ничего нет</p>
+            <OrdersList/>
           </div>
         </TabsContent>
         <TabsContent value="addresses">
