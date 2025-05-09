@@ -73,6 +73,8 @@ const ExtendedOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
                   <p>Имя: {order.name}</p>
                   <p>Телефон: {order.phone}</p>
                   <p>Email: {order.email}</p>
+                  <p>Способ оплаты: {order.payment === "card" ? "Карта" : "Наличные"}</p>
+                  <p>Способ доставки: {order.locationId ? "Доставка" : "Самовывоз"}</p>
                 </div>
               </CardContent>
             </Card>
@@ -116,9 +118,13 @@ const ExtendedOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
                 <span>Доставка:</span>
                 <span>400 ₽</span>
               </div>
+              <div className="flex justify-between">
+                <span>{order.useBonuses ? "Списание бонусов:" : "Начисление бонусов:"}</span>
+                <span>{order.bonuses} ₽</span>
+              </div>
               <div className="flex justify-between font-semibold text-lg">
                 <span>Итого:</span>
-                <span>{order.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0)} ₽</span>
+                <span>{order.totalPrice} ₽</span>
               </div>
             </div>
 

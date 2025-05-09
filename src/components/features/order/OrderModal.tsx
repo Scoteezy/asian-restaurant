@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { toast } from "@/hooks/use-toast"
 import { addToBasket, deleteFromBasket, getBasket } from "@/server/actions/basket.actions"
 import { createOrderAction } from "@/server/actions/order.actions"
-import { getUserAction } from "@/server/actions/user.actions"
+import { changeBonusesAction, getUserAction } from "@/server/actions/user.actions"
 import { type BasketWithItems } from "@/types"
 import { OrderStatus, type User } from "@prisma/client"
 import Image from "next/image"
@@ -33,6 +33,7 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
     email: user?.email ?? "",
     payment: "card",
     comment: "",
+    useBonuses: false,
   });
 
   const fetchBasket = async () => {
@@ -60,10 +61,15 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
 
   }, [open])
 
-  const handleFormChange = (field: string, value: string) => {
+  const handleFormChange = (field: string, value: boolean | string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
-
+  const calculateBonuses = () => {
+    if(!basket) {
+      return 0
+    }
+    return Math.floor(basket.items.reduce((total, item) => total + (item.product.price * item.quantity), 0) * 0.05)
+  }
   const handleFormSubmit = async (e?: React.FormEvent) => {
     if (e) {
       e.preventDefault();
@@ -82,6 +88,8 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
       })
       return
     }
+    const price = totalPrice ? totalPrice + 400 - (form.useBonuses ? user.bonuses : 0) : 0
+
     if(form.payment === "card"){
       const orderData = {
         name: form.name,
@@ -91,6 +99,9 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
         comment: form.comment,
         userId: user.id,
         selectedLocation: selectedAddress,
+        totalPrice: price,
+        useBonuses: form.useBonuses,
+        bonuses: form.useBonuses ? user.bonuses : calculateBonuses(),
         items: basket.items.map((item) => ({
           productId: item.product.id,
           quantity: item.quantity,
@@ -101,6 +112,7 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
       router.push(`/mock-payment?data=${encodeURIComponent(JSON.stringify(orderData))}`);
       return;
     }
+    
     const order = {
       name: form.name,
       phone: form.phone,
@@ -108,8 +120,11 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
       payment: form.payment,
       comment: form.comment,
       userId: user.id,
+      useBonuses: form.useBonuses,
+      bonuses: form.useBonuses ? user.bonuses : calculateBonuses(),
       locationId: selectedAddress.type==="delivery"?selectedAddress.id:null,
       restaurantId: selectedAddress.type==="selfPickup"?selectedAddress.id:null,
+      totalPrice: price,
       items: basket.items.map((item) => ({
         productId: item.product.id,
         quantity: item.quantity,
@@ -122,6 +137,7 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
         title: "Заказ успешно оформлен",
         description: "Вы можете отследить его в разделе 'Мои заказы'",
       })
+      router.push('/profile')
     }else{
       toast({
         title: "Ошибка при оформлении заказа",
@@ -188,6 +204,7 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
               </TabsContent>
             </Tabs>
             <OrderForm 
+              bonuses={user?.bonuses ?? null}
               onChange={handleFormChange}
               onSubmit={handleFormSubmit}
               values={form}
@@ -199,9 +216,13 @@ const OrderModal = ({totalPrice}: {totalPrice?: number}) => {
           {basket?.items.length != 0 && (
             <div className=" flex flex-col self-start gap-3   w-1/2 ">
               <div className="flex flex-col gap-2 ">
-                <p className="text-lg font-bold">Итого</p>
+                <p className="text-lg font-bold">Итого {totalPrice ? totalPrice+400 - (form.useBonuses ? user?.bonuses ?? 0 : 0) : 0} ₽</p>
+
                 <p className="text-sm flex-between">В корзине {basket?.items.length} товаров <span>{basket?.items.reduce((total, item) => total + (item.product.price * item.quantity), 0)} ₽ </span></p>
                 <p className="text-sm flex-between">Доставка 400 ₽ <span>400 ₽</span></p>
+                {!form.useBonuses && (
+                  <p className="text-sm flex-between">Начислено бонусов <span>{calculateBonuses()} ₽</span></p>
+                )}
               </div>
               <div className="border-b-2 border-[hsla(0,0%,100%,.1)] w-full "></div>
               <Button className=" text-md bg-main text-white flex items-center justify-center gap-2 "

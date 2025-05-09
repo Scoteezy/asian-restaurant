@@ -2,6 +2,8 @@ import { type Product } from "@prisma/client";
 
 export type CreateOrderInput = Omit<Order, "createdAt" | "id" | "items" | "status" | "updatedAt"> & {
     items: CreateOrderItem[];
+    useBonuses: boolean;
+    bonuses: number;
   };
 export type CreateOrderItem = {
     productId: string;
@@ -22,6 +24,9 @@ export interface Order {
   restaurantId?: null | string;
   status: string;
   items: OrderItem[];
+  useBonuses: boolean;
+  bonuses: number;
+  totalPrice: number;
 };
 export interface OrderItem {
   id: string;

@@ -111,3 +111,32 @@ export const updateUserRoleAction = async (id: string, role: Role): Promise<Resp
     };
   }
 };
+export const changeBonusesAction = async (id: string, bonuses: number, type: "add" | "subtract"): Promise<Response<null>> => {
+  const user = await db.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    return {
+      success: false,
+      data: null,
+      error: "User not found",
+    };
+  }
+  await db.user.update({
+    where: {
+      id,
+    },
+    data: {
+      bonuses: type === "add" ? user.bonuses + bonuses : user.bonuses - bonuses,
+    },
+  });
+
+  return {
+    success: true,
+    data: null,
+    error: null,
+  };
+};

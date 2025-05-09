@@ -42,7 +42,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             </span>
           </div>
           <div className="text-lg font-semibold">
-            {totalPrice.toLocaleString('ru-RU')} ₽
+            {order.totalPrice ? order.totalPrice.toLocaleString('ru-RU') : totalPrice.toLocaleString('ru-RU')} ₽
           </div>
         </div>
 

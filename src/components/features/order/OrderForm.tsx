@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,12 +16,14 @@ interface OrderFormProps {
     email: string;
     payment: string;
     comment: string;
+    useBonuses: boolean;
   };
-  onChange: (field: string, value: string) => void;
+  onChange: (field: string, value: boolean | string) => void;
   onSubmit: (e: React.FormEvent) => void;
+  bonuses: null | number;
 }
 
-export const OrderForm = ({ values, onChange, onSubmit }: OrderFormProps) => {
+export const OrderForm = ({ values, onChange, onSubmit, bonuses }: OrderFormProps) => {
   return (
     <form className="flex flex-col gap-3 w-full mt-4"
       onSubmit={onSubmit}
@@ -101,8 +104,25 @@ export const OrderForm = ({ values, onChange, onSubmit }: OrderFormProps) => {
           placeholder="Комментарий"
           value={values.comment}
         />
+        
       </div>
-     
+      {  bonuses && bonuses > 0 ? (
+        <div className="flex items-center space-x-2">
+          <input
+            checked={values.useBonuses}
+            className="w-4 h-4 rounded border-gray-600 bg-[#181818] text-white focus:ring-0 focus:ring-offset-0"
+            id="useBonuses"
+            onChange={(e) => onChange("useBonuses", e.target.checked)}
+            type="checkbox"
+          />
+          <Label 
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="useBonuses"
+          >
+            Доступно {bonuses} бонусов, списать все?
+          </Label>
+        </div>
+      ) : <></>}
     </form>
   );
 }

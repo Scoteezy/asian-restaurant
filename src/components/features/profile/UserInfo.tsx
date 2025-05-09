@@ -124,6 +124,9 @@ const UserInfo = ({prefetchedUser}: {prefetchedUser: User}) => {
               </FormItem>
             )}
           />
+          <p className="text-sm text-muted-foreground">
+            Бонусы: {prefetchedUser.bonuses}
+          </p>
           <div className="flex flex-col gap-2">
             <Button className="w-full rounded-full"
               type="submit"

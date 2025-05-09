@@ -15,6 +15,9 @@ interface OrderData {
   userId: string;
   selectedLocation: {id: string, type: "delivery" | "selfPickup"};
   items: OrderItem[];
+  useBonuses: boolean;
+  bonuses: number;
+  totalPrice: number;
 }
 
 interface OrderItem {
@@ -52,6 +55,9 @@ const MockPaymentPage = () => {
           'comment' in decodedData &&
           'userId' in decodedData &&
           'selectedLocation' in decodedData &&
+          'useBonuses' in decodedData &&
+          'bonuses' in decodedData &&
+          'totalPrice' in decodedData &&
           Array.isArray(decodedData.items)
         ) {
           setOrderData(decodedData);
@@ -80,6 +86,9 @@ const MockPaymentPage = () => {
       payment: orderData.payment,
       comment: orderData.comment,
       userId: orderData.userId,
+      useBonuses: orderData.useBonuses,
+      bonuses: orderData.bonuses,
+      totalPrice: orderData.totalPrice,
       locationId: orderData.selectedLocation.type === "delivery" ? orderData.selectedLocation.id : null,
       restaurantId: orderData.selectedLocation.type === "selfPickup" ? orderData.selectedLocation.id : null,
       items: orderData.items.map((item) => ({

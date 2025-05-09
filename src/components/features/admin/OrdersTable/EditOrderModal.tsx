@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 
 import { toast } from "@/hooks/use-toast"
 import { updateOrderAction } from "@/server/actions/order.actions"
+import { changeBonusesAction } from "@/server/actions/user.actions"
 import { type OrderWithExtendedItems } from "@/types/Order"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
@@ -93,11 +94,21 @@ const EditOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
   const router = useRouter()
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+
     const response = await updateOrderAction({
       ...order,
       ...data,
     })
 
+    if(data.status==='DELIVERED'){
+      if(order.useBonuses){
+        await changeBonusesAction(order.userId, order.bonuses, "subtract")
+  
+      
+      }else{
+        await changeBonusesAction(order.userId, order.bonuses, "add")
+      }
+    }
     if (response.success) {
       form.reset({
         name: data.name,
