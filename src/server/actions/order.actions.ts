@@ -158,3 +158,64 @@ export const updateOrderStatusAction = async (orderId: string, status: OrderStat
     }
   }
 }
+export const updateOrderAction = async (order:Order): Promise<Response<null>> => {
+  try {
+    const updatedOrder = await db.order.update({
+      where: { id: order.id },
+      data: {
+        status: order.status as OrderStatus,
+        comment: order.comment,
+        name: order.name,
+        phone: order.phone,
+        email: order.email,
+      },
+    })
+
+    return {
+      success: true,
+      data: null,
+      error: null,
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      success: false,
+      data: null,
+      error: "Failed to update order",
+    }
+  }
+}
+export const getAllOrdersAction = async (): Promise<Response<OrderWithExtendedItems[]>> => {
+  try {
+    const orders = await db.order.findMany({
+    })
+    const ordersWithItems = await Promise.all(orders.map(async (order) => {
+      const items = await db.orderItem.findMany({
+        where: {
+          orderId: order.id,
+        },
+        include: {
+          product: true
+        }
+      })
+
+      return {
+        ...order,
+        items,
+      }
+    }))
+
+    return {
+      success: true,
+      data: ordersWithItems,
+      error: null,
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      success: false,
+      data: null,
+      error: "Failed to get orders",
+    }
+  }
+}

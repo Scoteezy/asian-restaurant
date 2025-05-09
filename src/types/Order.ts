@@ -30,5 +30,7 @@ export interface OrderItem {
   quantity: number;
 }
 export interface OrderWithExtendedItems extends Order {
+  createdAt: Date;
+  updatedAt: Date;
   items: ExtendedOrderItem[];
 }
