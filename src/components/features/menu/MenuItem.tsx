@@ -1,6 +1,7 @@
 import { HeartIcon, PlusIcon, ShoppingBasket, SoupIcon } from "lucide-react"
 
 import { type ProductWithNutrition } from "@/types"
+import { type User } from "@prisma/client"
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import AddFavoriteButton from "../favorite/AddFavoriteButton"
 import { MenuItemModal } from "./MenuItemModal"
 
-const MenuItem = ({ product }: { product: ProductWithNutrition }) => {
+const MenuItem = ({ product, user }: { product: ProductWithNutrition, user: null | User }) => {
   return (
     <div className="flex flex-col gap-2 relative rounded-md bg-muted-foreground/10 overflow-hidden  group cursor-pointer">
       {product.isSpicy && 
@@ -41,7 +42,7 @@ const MenuItem = ({ product }: { product: ProductWithNutrition }) => {
             <p>{product.gramm} г</p>
           </div>
         </div>
-        <p className="hidden sm:block text-muted-foreground/80 text-sm line-clamp-2">{product.description}</p>
+        <p className="hidden sm:block text-muted-foreground/80 text-sm line-clamp-1 overflow-hidden">{product.description}</p>
 
         <div className="flex-between">
           <div className="flex-col gap-2">
@@ -50,8 +51,12 @@ const MenuItem = ({ product }: { product: ProductWithNutrition }) => {
             
           </div>
           <div className="flex-center gap-2">
-            <MenuItemModal product={product} />
-            <AddFavoriteButton productId={product.id} />
+            <MenuItemModal product={product}
+              user={user}
+            />
+            <AddFavoriteButton productId={product.id}
+              user={user}
+            />
           </div>
         </div>
       </div>

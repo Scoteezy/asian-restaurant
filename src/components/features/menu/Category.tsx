@@ -1,7 +1,10 @@
+import { getUserAction } from "@/server/actions/user.actions"
 import { type CategoryWithProducts } from "@/types"
 
 import { MenuItem } from "./MenuItem"
-const Category = ({ categoryWithProducts }: { categoryWithProducts: CategoryWithProducts }) => {
+const Category = async ({ categoryWithProducts }: { categoryWithProducts: CategoryWithProducts }) => {
+  const user = await getUserAction()
+
   return (
     <div className="flex flex-col gap-2 scroll-mt-[70px]"
       id={categoryWithProducts.name}
@@ -11,6 +14,7 @@ const Category = ({ categoryWithProducts }: { categoryWithProducts: CategoryWith
         {categoryWithProducts.Product.map((product) => (
           <MenuItem key={product.id}
             product={product}
+            user={user.data}
           />
         ))}
        

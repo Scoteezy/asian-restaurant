@@ -5,11 +5,9 @@ import { useEffect, useState } from "react"
 
 import { toast } from "@/hooks/use-toast"
 import { addToBasket } from "@/server/actions/basket.actions"
-import { getUserAction } from "@/server/actions/user.actions"
 import { type ProductWithNutrition } from "@/types"
 import { type User } from "@prisma/client"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -23,20 +21,12 @@ import { AuthModal } from "../auth"
 interface MenuItemModalProps {
   product: ProductWithNutrition
   isFavorite?: boolean
+  user: null | User
 }
 
-const MenuItemModal = ({ product, isFavorite = false }: MenuItemModalProps) => {
+const MenuItemModal = ({ product, isFavorite = false, user }: MenuItemModalProps) => {
   const [open, setOpen] = useState(false)
-  const [user, setUser] = useState<null | User>(null)
-  const fetchUser = async () => {
-    const response = await getUserAction()
-
-    setUser(response.data)
-  }
-
-  useEffect(() => {
-    void fetchUser()
-  }, [])
+ 
   const addProductToBasket = async () => {
     const response = await addToBasket(product.id)
 

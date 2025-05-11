@@ -10,18 +10,12 @@ import { type User } from "@prisma/client"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-const AddFavoriteButton = ({ productId }: { productId: string }) => {
+const AddFavoriteButton = ({ productId, user }: { productId: string, user: null | User }) => {
   const [isFavorite, setIsFavorite] = useState(false)
-  const [user, setUser] = useState<null | User>(null)
   const router = useRouter()
-  const fetchUser = async () => {
-    const response = await getUserAction()
 
-    setUser(response.data)
-  }
 
   useEffect(() => {
-    void fetchUser()
     const fetchFavorites = async () => {
       const response = await getFavorites()
 

@@ -49,7 +49,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         
 
         <div className="flex gap-2">
-          {order.items.map((item) => (
+          {order.items.slice(0, 4).map((item) => (
             <div className="h-12 w-12 rounded-md overflow-hidden bg-[#2a2a2a]"
               key={item.id}
             >

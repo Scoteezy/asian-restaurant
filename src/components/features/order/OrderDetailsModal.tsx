@@ -167,7 +167,7 @@ export const OrderDetailsModal = ({ order, children }: OrderDetailsModalProps) =
           {/* Товары */}
           <div className="space-y-4">
             <h3 className="font-medium">Товары</h3>
-            <div className="space-y-3">
+            <div className="space-y-3 max-h-[300px] overflow-y-auto">
               {order.items.map((item) => (
                 <div className="flex items-center gap-4"
                   key={item.id}
