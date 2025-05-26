@@ -21,8 +21,11 @@ enum Role {
 
 enum OrderStatus {
     PENDING
-    CONFIRMED
+    PREPARING
+    DELIVERY
     DELIVERED
+    READY
+    COMPLETED
     CANCELLED
 }
 

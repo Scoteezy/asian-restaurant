@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { getUserAction } from "@/server/actions/user.actions";
 import { auth } from "@/server/auth";
 import { type User } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 import { AuthModal } from "@/components/features/auth";
 import { Button } from "@/components/ui/button";
@@ -129,6 +130,7 @@ export default function BonusPage() {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
   const isAuthenticated = !!user;
+  const router = useRouter()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -163,7 +165,7 @@ export default function BonusPage() {
                 <Button 
                   className="bg-[#FF2C2C] hover:bg-[#FF2C2C]/90 text-white px-8"
                   onClick={() => {
-                    ("/bonus/create");
+                    router.push("/profile");
                   }}
                   size="lg"
                 >

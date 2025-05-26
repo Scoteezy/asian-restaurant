@@ -80,13 +80,11 @@ export const addToBasket = async (productId: string): Promise<Response<null>> =>
     });
   
     if (existingItem) {
-    // Если товар уже есть, увеличиваем его количество на 1
       await db.basketItem.update({
         where: { id: existingItem.id },
         data: { quantity: existingItem.quantity + 1 },
       });
     } else {
-    // Если товара еще нет, создаем новую запись с количеством 1
       await db.basketItem.create({
         data: {
           basketId: basket.id,

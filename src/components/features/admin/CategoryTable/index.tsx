@@ -1,19 +1,18 @@
-import { Trash } from "lucide-react"
 
 import { type Category } from "@/types"
 
-import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 import AddCategoryModal from "./AddCategoryModal"
 import DeleteCategoryModal from "./DeleteCategoryModal"
 import EditCategoryModal from "./EditCategoryModal"
+import RestoreCategoryModal from "./RestoreCategoryModal"
 
-const CategoryTable = ({categories}: {categories: Category[]}) => {
+const CategoryTable = ({categories, caption = "Список всех категорий.", isDeleted = false}: {categories: Category[], caption?: string, isDeleted?: boolean}) => {
   return  (
     <div className="w-full">
       <Table>
-        <TableCaption>Список всех категорий.</TableCaption>
+        <TableCaption>{caption}</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Название</TableHead>
@@ -32,18 +31,21 @@ const CategoryTable = ({categories}: {categories: Category[]}) => {
               <TableCell>{category.updatedAt.toLocaleDateString()}</TableCell>
               <TableCell className="text-right flex gap-2 justify-end">
                 <EditCategoryModal category={category} />
-                <DeleteCategoryModal category={category} />
+                {!isDeleted && <DeleteCategoryModal category={category} />}
+                {isDeleted && <RestoreCategoryModal category={category} />}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow className="w-full">
-            <TableCell colSpan={5}>
-              <AddCategoryModal />
-            </TableCell>
-          </TableRow>
-        </TableFooter>
+        {!isDeleted && (
+          <TableFooter>
+            <TableRow className="w-full">
+              <TableCell colSpan={5}>
+                <AddCategoryModal />
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        )}
       </Table>
     </div>
   )

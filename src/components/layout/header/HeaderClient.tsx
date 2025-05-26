@@ -20,13 +20,14 @@ const HeaderClient = ({prefetchedUser}:{prefetchedUser?: User}) => {
     <div className="w-full bg-background h-[70px]">
       <div className="wrapper flex-between">
         <div className="flex-center text-2xl font-bold text-primary gap-5">
-          {prefetchedUser?.role !== 'ADMIN' ? 
+          {prefetchedUser?.role !== 'ADMIN' && prefetchedUser?.role !== 'STAFF' ? 
             <Link className="flex flex-col hover:text-main transition-all duration-300 font-audiowide"
               href="/"
             >
               Nami 🍜
             </Link>: <></>}
           {prefetchedUser ? prefetchedUser.role === 'ADMIN' && <Link href="/admin">Админ панель</Link> : <></>}
+          {prefetchedUser ? prefetchedUser.role === 'STAFF' && <Link href="/staff">Рабочая панель</Link> : <></>}
         </div>
         <div className="flex items-center gap-4">
           <a className="text-md text-primary font-medium"

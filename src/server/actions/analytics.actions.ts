@@ -8,7 +8,6 @@ export async function getAnalyticsAction() {
     const today = new Date()
     const thirtyDaysAgo = subDays(today, 30)
 
-    // Получаем все доставленные заказы
     const deliveredOrders = await db.order.findMany({
       where: {
         status: "DELIVERED",
@@ -22,7 +21,6 @@ export async function getAnalyticsAction() {
       }
     })
 
-    // Считаем общую выручку
     const totalRevenue = deliveredOrders.reduce((sum, order) => {
       const orderTotal = order.items.reduce((orderSum, item) => {
         return orderSum + (item.product.price * item.quantity)
@@ -31,13 +29,10 @@ export async function getAnalyticsAction() {
       return sum + orderTotal
     }, 0)
 
-    // Получаем количество заказов
     const totalOrders = await db.order.count()
 
-    // Получаем количество пользователей
     const totalUsers = await db.user.count()
 
-    // Получаем активные заказы (PENDING и CONFIRMED)
     const activeOrders = await db.order.count({
       where: {
         status: {
@@ -46,7 +41,6 @@ export async function getAnalyticsAction() {
       },
     })
 
-    // Получаем данные для графика выручки
     const ordersByDate = await db.order.findMany({
       where: {
         status: "DELIVERED",
@@ -71,7 +65,6 @@ export async function getAnalyticsAction() {
       revenue: order.items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)
     }))
 
-    // Получаем популярные продукты
     const popularProducts = await db.orderItem.groupBy({
       by: ['productId'],
       _sum: {
@@ -85,7 +78,6 @@ export async function getAnalyticsAction() {
       take: 5,
     })
 
-    // Получаем детали популярных продуктов
     const popularProductsDetails = await Promise.all(
       popularProducts.map(async (product) => {
         const productDetails = await db.product.findUnique({
@@ -101,7 +93,6 @@ export async function getAnalyticsAction() {
       })
     )
 
-    // Получаем статистику по статусам заказов
     const orderStatusStats = await db.order.groupBy({
       by: ['status'],
       _count: true,

@@ -116,15 +116,21 @@ export const OrderDetailsModal = ({ order, children }: OrderDetailsModalProps) =
               <span className="text-sm text-muted-foreground">Статус:</span>
               <span className={`px-2 py-0.5 rounded-full text-xs ${
                 order.status === "PENDING" ? "bg-yellow-500/10 text-yellow-500" :
-                  order.status === "CONFIRMED" ? "bg-blue-500/10 text-blue-500" :
-                    order.status === "DELIVERED" ? "bg-green-500/10 text-green-500" :
-                      "bg-red-500/10 text-red-500"
+                  order.status === "PREPARING" ? "bg-blue-500/10 text-blue-500" :
+                    order.status === "DELIVERY" ? "bg-purple-500/10 text-purple-500" :
+                      order.status === "DELIVERED" ? "bg-green-500/10 text-green-500" :
+                        order.status === "READY" ? "bg-green-500/10 text-green-500" :
+                          order.status === "COMPLETED" ? "bg-green-500/10 text-green-500" :
+                            "bg-red-500/10 text-red-500"
               }`}
               >
                 {order.status === "PENDING" ? "Ожидается" :
-                  order.status === "CONFIRMED" ? "Подтвержден" :
-                    order.status === "DELIVERED" ? "Доставлен" :
-                      "Отменен"}
+                  order.status === "PREPARING" ? "Готовится" :
+                    order.status === "DELIVERY" ? "В доставке" :
+                      order.status === "DELIVERED" ? "Доставлен" :
+                        order.status === "READY" ? "Готов" :
+                          order.status === "COMPLETED" ? "Завершен" :
+                            "Отменен"}
               </span>
             </div>
             <div className="text-lg font-semibold">

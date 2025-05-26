@@ -137,3 +137,21 @@ export const deleteCategoryAction = async (id: string): Promise<Response<null>> 
     }
   }
 }
+
+export const getAllCategoriesWithDeletedAction = async (): Promise<Response<Category[]>> => {
+  try {
+    const categories = await db.category.findMany({where: {isDeleted: true}})
+
+    return {
+      success: true,
+      data: categories as unknown as Category[],
+      error: null,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: "Category not found",
+    }
+  }
+}

@@ -29,6 +29,28 @@ export const getAllProductsAction = async (): Promise<Response<ProductWithCatego
     }
   }
 }
+export const getAllProductsWithDeletedAction = async (): Promise<Response<ProductWithCategory[]>> => {
+  try {
+    const products = await db.product.findMany({where: {isDeleted: true}});
+    const productsWithCategory = await Promise.all(products.map(async (product) => {
+      const category = await getCategoryByProductIdAction(product.id)
+
+      return { ...product, category }
+    }))
+
+    return {
+      success: true,
+      data: productsWithCategory as unknown as ProductWithCategory[],
+      error: null,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: "Product not found",
+    }
+  }
+}
 export const addProductAction = async (product: {
   name: string
   description: string
@@ -97,6 +119,26 @@ export const deleteProductAction = async (productId: string): Promise<Response<n
     await db.product.update({
       where: { id: productId },
       data: { isDeleted: true, updatedAt: new Date() }
+    })
+
+    return {
+      success: true,
+      data: null,
+      error: null,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: "Product not found",
+    }
+  }
+}
+export const restoreProductAction = async (productId: string): Promise<Response<null>> => {
+  try {
+    await db.product.update({
+      where: { id: productId },
+      data: { isDeleted: false, updatedAt: new Date() }
     })
 
     return {

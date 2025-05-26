@@ -6,12 +6,13 @@ import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, Tabl
 
 import { DeleteProductModal } from "./DeleteProductModal"
 import {ManageProductModal} from "./ManageProductModal"
+import {RestoreProductModal} from "./RestoreProductModal"
 
-const MenuTable = ({products, categories}: {products: ProductWithCategory[], categories: Category[]}) => {
+const MenuTable = ({products, categories, caption = "Список всех позиций меню.",  isDeleted = false}: {products: ProductWithCategory[], categories: Category[], caption?: string, isDeleted?: boolean}) => {
   return (
     <div className="w-full">
       <Table>
-        <TableCaption>Список всех позиций меню.</TableCaption>
+        <TableCaption>{caption}</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Название</TableHead>
@@ -63,18 +64,20 @@ const MenuTable = ({products, categories}: {products: ProductWithCategory[], cat
                 <ManageProductModal categories={categories}
                   product={product}
                 />
-                <DeleteProductModal product={product} />
+                {!isDeleted && <DeleteProductModal product={product} />}
+                {isDeleted && <RestoreProductModal product={product} />}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow className="w-full">
+        {!isDeleted && (<TableFooter>
+          <TableRow className="w-full" >
             <TableCell colSpan={14}>
               <ManageProductModal categories={categories} />
             </TableCell>
           </TableRow>
         </TableFooter>
+        )}
       </Table>
      
     </div>

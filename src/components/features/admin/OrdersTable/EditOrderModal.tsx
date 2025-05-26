@@ -55,22 +55,34 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Введите корректный email адрес.",
   }),
-  status: z.enum(["PENDING", "CONFIRMED", "DELIVERED", "CANCELLED"]),
+  status: z.enum(["PENDING", "PREPARING", "DELIVERY", "DELIVERED", "READY", "COMPLETED", "CANCELLED"]),
   comment: z.string().optional(),
 })
 
 const orderStatusValues = [
   {
     value: "PENDING",
-    label: "Ожидает",
+    label: "Ожидается",
   },
   {
-    value: "CONFIRMED",
-    label: "Подтвержден",
+    value: "PREPARING",
+    label: "Готовится",
+  },
+  {
+    value: "DELIVERY",
+    label: "В доставке",
   },
   {
     value: "DELIVERED",
     label: "Доставлен",
+  },
+  {
+    value: "READY",
+    label: "Готов",
+  },
+  {
+    value: "COMPLETED",
+    label: "Завершен",
   },
   {
     value: "CANCELLED",
@@ -87,7 +99,7 @@ const EditOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
       name: order.name,
       phone: order.phone,
       email: order.email,
-      status: order.status as "CANCELLED" | "CONFIRMED" | "DELIVERED" | "PENDING",
+      status: order.status as "CANCELLED" | "COMPLETED" | "DELIVERED" | "DELIVERY" | "PENDING" | "PREPARING" | "READY",
       comment: order.comment ?? "",
     },
   })
@@ -100,7 +112,7 @@ const EditOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
       ...data,
     })
 
-    if(data.status==='DELIVERED'){
+    if(data.status==='COMPLETED'){
       if(order.useBonuses){
         await changeBonusesAction(order.userId, order.bonuses, "subtract")
   
@@ -134,7 +146,7 @@ const EditOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
   }
 
   const handleStatusSelect = (value: string) => {
-    form.setValue('status', value as "CANCELLED" | "CONFIRMED" | "DELIVERED" | "PENDING")
+    form.setValue('status', value as "CANCELLED" | "COMPLETED" | "DELIVERED" | "DELIVERY" | "PENDING" | "PREPARING" | "READY")
     setStatusPopoverOpen(false)
   }
 
