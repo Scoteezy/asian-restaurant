@@ -19,12 +19,18 @@ const OrdersTable = async ({orders}: {orders: OrderWithExtendedItems[]}) => {
     switch (status) {
       case "CANCELLED":
         return "Отменен"
-      case "CONFIRMED":
-        return "Подтвержден"
+      case "COMPLETED":
+        return "Завершен"
       case "DELIVERED":
         return "Доставлен"
+      case "DELIVERY":
+        return "В доставке"
       case "PENDING":
         return "Ожидает"
+      case "PREPARING":
+        return "Готовится"
+      case "READY":
+        return "Готов"
     }
 
   }

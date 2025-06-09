@@ -36,6 +36,25 @@ const ExtendedOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
         return "bg-gray-500"
     }
   }
+  const formatStatus = (status: string) => {
+    switch (status) {
+      case "CANCELLED":
+        return "Отменен"
+      case "COMPLETED":
+        return "Завершен"
+      case "DELIVERED":
+        return "Доставлен"
+      case "DELIVERY":
+        return "В доставке"
+      case "PENDING":
+        return "Ожидает"
+      case "PREPARING":
+        return "Готовится"
+      case "READY":
+        return "Готов"
+    }
+
+  }
 
   return (
     <Dialog onOpenChange={setOpen}
@@ -58,7 +77,7 @@ const ExtendedOrderModal = ({ order }: { order: OrderWithExtendedItems }) => {
             {/* Order Status and Date */}
             <div className="flex items-center justify-between">
               <Badge className={`${getStatusColor(order.status)} text-white`}>
-                {order.status}
+                {formatStatus(order.status)}
               </Badge>
               <span className="text-sm text-muted-foreground">
                 {format(new Date(order.createdAt), "d MMMM yyyy, HH:mm", { locale: ru })}

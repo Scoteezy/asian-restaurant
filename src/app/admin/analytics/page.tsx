@@ -3,7 +3,6 @@ import { getAnalyticsAction } from "@/server/actions/analytics.actions"
 import { MetricsOverview } from "@/components/features/admin/analytics/MetricsOverview"
 import { PopularProducts } from "@/components/features/admin/analytics/PopularProducts"
 import { RevenueChart } from "@/components/features/admin/analytics/RevenueChart"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default async function AnalyticsPage() {
   const response = await getAnalyticsAction()
@@ -23,6 +22,7 @@ export default async function AnalyticsPage() {
 
   const analytics = response.data
 
+  console.log(analytics)
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">

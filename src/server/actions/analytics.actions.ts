@@ -10,7 +10,7 @@ export async function getAnalyticsAction() {
 
     const deliveredOrders = await db.order.findMany({
       where: {
-        status: "DELIVERED",
+        status: "COMPLETED",
       },
       include: {
         items: {
@@ -36,14 +36,14 @@ export async function getAnalyticsAction() {
     const activeOrders = await db.order.count({
       where: {
         status: {
-          in: ["PENDING", "CONFIRMED"],
+          in: ["PENDING", "DELIVERY", "PREPARING", "READY"],
         },
       },
     })
 
     const ordersByDate = await db.order.findMany({
       where: {
-        status: "DELIVERED",
+        status: "COMPLETED",
         createdAt: {
           gte: thirtyDaysAgo,
         },

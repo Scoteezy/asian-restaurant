@@ -22,6 +22,8 @@ const BasketModal = () => {
     const response = await getBasket()
 
     setBasket(response.data)
+    setInitialLoad(false)
+
   }
 
   useEffect(() => {
@@ -29,7 +31,6 @@ const BasketModal = () => {
     if(open) {
       void fetchBasket()
     }
-    setInitialLoad(false)
 
   }, [open])
 
