@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import { createOrderAction } from '@/server/actions/order.actions';
 import { type CreateOrderInput } from '@/types';
@@ -26,7 +26,7 @@ interface OrderItem {
   price: number;
 }
 
-const MockPaymentPage = () => {
+const PaymentForm = () => {
   const searchParams = useSearchParams();
   const [orderData, setOrderData] = useState<null | OrderData>(null);
   const [cardNumber, setCardNumber] = useState('');
@@ -275,6 +275,14 @@ const MockPaymentPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const MockPaymentPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentForm />
+    </Suspense>
   );
 };
 
