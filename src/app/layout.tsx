@@ -5,7 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { Audiowide, Geist, Geist_Mono } from "next/font/google";
 
 import { Toaster } from "@/components/ui/toaster"
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import "@/styles/globals.css";
 
 const geistSans = Geist({
@@ -41,6 +41,7 @@ export default function RootLayout({
         <SessionProvider>
           {children}
           <Toaster />
+            <SpeedInsights />
         </SessionProvider>
       </body>
     </html>
