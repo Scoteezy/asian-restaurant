@@ -1,10 +1,11 @@
 import { HeartIcon } from "lucide-react";
 
 import { getFavorites } from "@/server/actions/favorite.actions";
+import { type User } from "@prisma/client";
 
 import FavoriteItem from "./FavoriteItem";
 
-export const FavoriteList = async () => {
+export const FavoriteList = async ( ) => {
   const favorite = await getFavorites()
 
   if(favorite.error || !favorite.data){

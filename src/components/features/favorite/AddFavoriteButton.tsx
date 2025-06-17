@@ -10,7 +10,7 @@ import { type User } from "@prisma/client"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-const AddFavoriteButton = ({ productId, user }: { productId: string, user: null | User }) => {
+const AddFavoriteButton = ({ productId, user }: { productId: string, user?: null | User }) => {
   const [isFavorite, setIsFavorite] = useState(false)
   const router = useRouter()
 

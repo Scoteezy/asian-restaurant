@@ -21,7 +21,7 @@ import { AuthModal } from "../auth"
 interface MenuItemModalProps {
   product: ProductWithNutrition
   isFavorite?: boolean
-  user: null | User
+  user?: null | User
 }
 
 const MenuItemModal = ({ product, isFavorite = false, user }: MenuItemModalProps) => {

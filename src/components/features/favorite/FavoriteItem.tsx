@@ -1,6 +1,7 @@
 import { SoupIcon, Trash2Icon } from "lucide-react"
 
 import { type Favorite } from "@/types/Favorite"
+import { type User } from "@prisma/client"
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -51,7 +52,7 @@ const FavoriteItem = ({ favorite }: { favorite: Favorite}) => {
             <MenuItemModal isFavorite={true}
               product={product}
             />
-            <AddFavoriteButton productId={product.id} />
+            <AddFavoriteButton productId={product.id}/>
           </div>
         </div>
       </div>
